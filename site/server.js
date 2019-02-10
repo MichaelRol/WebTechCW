@@ -12,7 +12,7 @@
 
 // Change the port to the default 80, if there are no permission issues and port
 // 80 isn't already in use. The root folder corresponds to the "/" url.
-let port = 3000;
+let port = 8000;
 let root = "./public"
 
 // Load the library modules, and define the global constants and variables.
