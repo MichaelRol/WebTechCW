@@ -1,7 +1,78 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <script src="hello.js"></script>
-    <script src="bug.mjs" type="module"></script>
-    <script src="pet.mjs" type="module"></script>
-    <script src="main.mjs" type="module"></script>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+    
+    <head>
+        <!-- charset meta tag -->
+        <meta charset="UTF-8"/> 
+        <!-- Responsive meta tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- Title -->
+        <title>Drink Up Buddy!</title>
+        <script src="hello.js"></script>
+        <script src="bug.mjs" type="module"></script>
+        <script src="pet.mjs" type="module"></script>
+        <script src="main.mjs" type="module"></script>
+        <!-- Font awesome icons -->
+        <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    
+        <!-- VUE CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- SCSS loaded bulma stylesheet -->
+        <link rel="stylesheet" href="css/bulma.css"></link>
+        <!-- Own stylesheet -->
+        <link rel="stylesheet" href="css/index.css"></link>
+        <!-- GOogle fonts CDN -->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
+    </head>
+    <!-- BEGIN BODY -->
+    <body>
+        <div class="columns is-gapless is-vcentered">
+            <!-- LEFT SIDE LOGO COLUMN -->
+            <div class="column is-two-fifths">
+                <div class="leftside">
+                    <figure class="image container is-128x128">
+                        <img src="Images/Logo.png"/>
+                    </figure>
+                </div>
+            </div>
+            <!-- RIGHT SIDE LOGIN/SIGNUP COLUMN -->
+            <div class="column">
+                <div class="entryfields">
+                    <!-- Tabs to select login or sign up -->
+                    <div class="tabs is-centered is-small is-fullwidth" style="padding-top: 20%">
+                        <ul>
+                            <li class="is-active">
+                                <a>
+                                    <span class="icon is-large"><i class="fas fa-key"></i></span>
+                                    <span>Log In</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <span class="icon is-large"><i class="fas fa-cocktail"></i></span>
+                                    <span>Sign Up</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Entry fields -->
+                    <div class="field" style="padding-top: 10%">
+                        <div class="control">
+                            <input class="input" type="email" placeholder="Email"/>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input" type="password" placeholder="Password"/>
+                        </div>
+                    </div>
+                    <label class="checkbox" style="padding-bottom: 5%">
+                        <input type="checkbox"/>
+                            Keep me signed in
+                    </label>
+                    <a class="button is-danger is-focused is-large is-fullwidth">Login!</a>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

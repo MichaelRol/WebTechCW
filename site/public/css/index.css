@@ -1,0 +1,18 @@
+.column {
+    height: 100vh;
+}
+
+div.leftside {
+    height: 100%;
+    background-color: #FF8383;
+    text-align: center;
+    padding-top: 20%;
+}
+
+.entryfields{
+    padding: 8%;
+}
+
+.field {
+    padding-top: 5%;
+}
