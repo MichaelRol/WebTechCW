@@ -1,8 +1,8 @@
 {
   "name": "site",
   "version": "1.0.0",
-  "description": "scss command",
-  "main": "sass/index.scss",
+  "description": "Web Tech website",
+  "main": "public/index.css",
   "dependencies": {
     "bulma": "^0.7.4",
     "node-sass": "^4.11.0"
@@ -11,9 +11,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "css-build": "node-sass --omit-source-map-url sass/index.scss public/css/bulma.css",
-    "css-watch": "npm run css-build -- --watch",
-    "start": "npm run css-watch"
+    "css-build": "node-sass --omit-source-map-url sass/index.scss public/css/bulma_import.css",
+    "css-watch": "npm run css-build -- --watch"
   },
   "repository": {
     "type": "git",

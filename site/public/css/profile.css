@@ -1,0 +1,33 @@
+#navitem {
+    width: 33%;
+    align-items: center;
+    align-content: stretch;
+}
+
+#navitemwords {
+    width: 100%;
+    text-align: center;
+    font-size: 120%;
+}
+
+#name {
+    font-size: 300%;
+    margin-bottom: 2%;
+}
+
+#bio {
+    font-size: 150%;
+}
+
+#post {
+    border-style: solid;
+    border-width: thin;
+}
+
+#caption {
+    font-size: 120%;
+}
+
+#contentSection {
+    width: 100%;
+}

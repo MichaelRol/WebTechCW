@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top" xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+    
+    <head>
+        <!-- charset meta tag -->
+        <meta charset="UTF-8"/> 
+        <!-- Responsive meta tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- Title -->
+        <title>Drinky McDrinkface</title>
+        <script src="hello.js"></script>
+        <script src="bug.mjs" type="module"></script>
+        <script src="pet.mjs" type="module"></script>
+        <script src="main.mjs" type="module"></script>
+        <!-- Font awesome icons -->
+        <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    
+        <!-- VUE CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- SCSS loaded bulma stylesheet -->
+        <link rel="stylesheet" href="css/bulma_import.css"></link>
+        <!-- Own stylesheet -->
+        <link rel="stylesheet" href="css/profile.css"></link>
+        <!-- GOogle fonts CDN -->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
+    </head>
+    <!-- BEGIN BODY -->
+    <body>
+        <!-- NAVBAR ON TOP OF PAGE -->
+            <nav class="navbar is-fixed-top is-danger" role="navigation" aria-label="main navigation" style="height: 8%;">
+                <div class="navbar-brand" style="height: 100%">
+                    <a class="navbar-item" href="index.html">
+                        <img src="Images/Logo.png" width="55" height="55"/>
+                    </a>
+                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainnavbar" style="height: 100%">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+                <div id= "mainnavbar" class="navbar-menu">
+                    <!-- navbar start, navbar end -->
+                    <div class="navbar-start" style= "width: 100%">
+                    <!-- navbar items -->
+                        <a class="navbar-item is-tab" id="navitem">
+                            <h1 id="navitemwords">My Profile</h1>
+                        </a>
+                        <a class="navbar-item is-tab" id="navitem">
+                            <h1 id="navitemwords">Bars Around Me</h1>
+                        </a>
+                        <a class="navbar-item is-tab is-expanded" id="navitem">
+                            <h1 id="navitemwords">Fix Me A Drink</h1>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        <div id="contentSection" class="section">
+            <div class="columns is-vcentered is-variable is-0-mobile is-8-widescreen is-8-tablet is-8-fullhd">
+                <div class="column is-one-third">
+                    <figure class="image is-square">
+                        <img src="Images/Logo.png"/>
+                    </figure>
+                </div>
+                <div class="column">
+                    <h1 id="name">Drinky McDrinkface</h1>
+                    <p id="bio">This is where you tell your story about how you are obsessed with perfectly made cocktails, and you would rather die than drink a cocktail at Spoons.</p>
+                </div>
+            </div>
+        </div>
+        <div id="contentSection" class="section">
+            <div class="columns is-variable is-1-mobile is-3-widescreen is-3-tablet is-3-fullhd">
+                <div id="postcollumn" class="column">
+                    <figure class="image is-square">
+                        <img id="post" src="https://bulma.io/images/placeholders/128x128.png"/>
+                    </figure>
+                    <h1 id="caption">Had a lovely drink at place A! This was their manhattan.</h1>
+                </div>
+                <div id="postcollumn" class="column">
+                    <figure class="image is-square">
+                        <img id="post" src="https://bulma.io/images/placeholders/128x128.png"/>
+                    </figure>
+                    <h1 id="caption">Martini was quite nice at place B.</h1>
+                </div>
+                <div id="postcollumn" class="column">
+                    <figure class="image is-square">
+                        <img id="post" src="https://bulma.io/images/placeholders/128x128.png"/>
+                    </figure>
+                    <h1 id="caption">This was the mojito at place C, absolutely horrible.</h1>
+                </div>
+                <div id="postcollumn" class="column">
+                    <figure class="image is-square">
+                        <img id="post" src="https://bulma.io/images/placeholders/128x128.png"/>
+                    </figure>
+                    <h1 id="caption">I know I said I will never drink a Woo Woo, I guess I lied. A specialty at place C, and I have to admit it is quite special.</h1>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

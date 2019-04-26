@@ -1,2 +1,16 @@
 @charset "utf-8";
-@import "../node_modules/bulma/bulma.sass";
+// Own colour choice
+$theme: #FF8383;
+
+//Update Bulma global variables
+$danger: $theme;
+$tabs-link-active-color: $theme;
+$tabs-link-active-border-bottom-color: $theme;
+
+//Import needed modules only
+@import "../node_modules/bulma/sass/utilities/_all.sass";
+@import "../node_modules/bulma/sass/base/_all.sass";
+@import "../node_modules/bulma/sass/components/_all.sass";
+@import "../node_modules/bulma/sass/elements/_all.sass";
+@import "../node_modules/bulma/sass/grid/_all.sass";
+@import "../node_modules/bulma/sass/layout/_all.sass";
