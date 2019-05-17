@@ -14,7 +14,8 @@
 // 80 isn't already in use. The root folder corresponds to the "/" url.
 let port = 8080;
 let root = "./public"
-
+const sqlite3 = require('sqlite3').verbose();
+// let db = new sqlite3.Database(':memory:');
 // Load the library modules, and define the global constants and variables.
 // Load the promises version of fs, so that async/await can be used.
 // See http://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
@@ -42,10 +43,32 @@ async function start() {
         service.listen(port, "localhost");
         let address = "http://localhost";
         if (port != 80) address = address + ":" + port;
+        openDB();
         console.log("Server running at", address);
     }
     catch (err) { console.log(err); process.exit(1); }
 }
+
+function openDB() {
+    let db = new sqlite3.Database('./db/test.db', sqlite3.OPEN_READWRITE, (err) => {
+        if (err) {
+          console.error(err.message);
+        }
+        console.log('Connected to the database.');
+    });
+}
+
+function closeDB() {
+    // close the database connection
+    db.close((err) => {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log('Close the database connection.');
+    });
+}
+
+
 
 // Serve a request by delivering a file.
 async function handle(request, response) {
