@@ -1,0 +1,22 @@
+{
+  "name": "webtechcw",
+  "version": "1.0.0",
+  "description": "Coursework for COMS32500",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelRol/WebTechCW.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MichaelRol/WebTechCW/issues"
+  },
+  "homepage": "https://github.com/MichaelRol/WebTechCW#readme",
+  "dependencies": {
+    "sqlite3": "^4.0.8"
+  }
+}

@@ -25,6 +25,12 @@ let http = require("http");
 let fs = require("fs").promises;
 let OK = 200, NotFound = 404, BadType = 415, Error = 500;
 let types, paths;
+let db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+        console.error(err.message);
+    }
+    console.log('Connected to the database.');
+});
 
 // Start the server:
 start();
@@ -49,14 +55,7 @@ async function start() {
     catch (err) { console.log(err); process.exit(1); }
 }
 
-function openDB() {
-    let db = new sqlite3.Database('./db/test.db', sqlite3.OPEN_READWRITE, (err) => {
-        if (err) {
-          console.error(err.message);
-        }
-        console.log('Connected to the database.');
-    });
-}
+// ------------ DATABASE FUNCTIONS --------------
 
 function closeDB() {
     // close the database connection
@@ -68,7 +67,29 @@ function closeDB() {
     });
 }
 
+function initDB() {
+    return undefined;
+}
 
+function addUser(fname, lname, email, passhash, salt) {
+    return undefined
+}
+
+function deleteUser(uid) {
+    return undefined;
+}
+
+function getUser(uid) {
+    return undefined;
+}
+
+function updateUserEmail(uid, email) {
+    return undefined;
+}
+
+function updateUserPassword(uid, newHash, newSalt) {
+    return undefined;
+}
 
 // Serve a request by delivering a file.
 async function handle(request, response) {
