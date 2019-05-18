@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <!-- Title -->
         <title>Drink Up Buddy!</title>
-        <script src="hello.js"></script>
+        <script src="index.js"></script>
         <script src="bug.mjs" type="module"></script>
         <script src="pet.mjs" type="module"></script>
         <script src="main.mjs" type="module"></script>
@@ -39,15 +39,16 @@
             <div class="column">
                 <div class="entryfields">
                     <!-- Tabs to select login or sign up -->
-                    <div class="tabs is-centered is-small is-fullwidth" style="padding-top: 20%">
+                    <div class="tabs is-centered is-small is-fullwidth" style="padding-top: 8%">
                         <ul>
-                            <li class="is-active">
+                            <li class="tab is-active" onclick="openTab(event,'login')">
                                 <a>
                                     <span class="icon is-large"><i class="fas fa-key"></i></span>
                                     <span>Log In</span>
                                 </a>
+                                
                             </li>
-                            <li>
+                            <li class="tab" onclick="openTab(event,'signup')">
                                 <a>
                                     <span class="icon is-large"><i class="fas fa-cocktail"></i></span>
                                     <span>Sign Up</span>
@@ -55,22 +56,59 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- Entry fields -->
-                    <div class="field" style="padding-top: 10%">
-                        <div class="control">
-                            <input class="input" type="email" placeholder="Email"/>
+                    <!-- LOGIN TAB -->
+                    <div id="login" class="content-tab">
+                        <div class="field" style="padding-top: 10%">
+                            <div class="control">
+                                <input class="input" type="email" placeholder="Email"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" type="password" placeholder="Password"/>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="password" placeholder="Password"/>
+                            </div>
                         </div>
-                    </div>
-                    <label class="checkbox" style="padding-bottom: 5%">
-                        <input type="checkbox"/>
+                        <label class="checkbox" style="padding-bottom: 5%">
+                            <input type="checkbox"/>
                             Keep me signed in
-                    </label>
-                    <a class="button is-danger is-focused is-large is-fullwidth">Login!</a>
+                        </label>
+                        <a class="button is-danger is-focused is-large is-fullwidth">Login!</a>
+                    </div>
+                    <!-- SIGNUP TAB -->
+                    <div id="signup" class="content-tab" style="display:none">
+                        <!-- Entry fields -->
+                        <div class="field" style="padding-top: 10%">
+                            <div class="control">
+                                <input class="input" type="text" placeholder="First name"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Last name"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="email" placeholder="Email"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="email" placeholder="Confirm email"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <input class="input" type="password" placeholder="Password"/>
+                            </div>
+                        </div>
+                        <div class="field" style="padding-bottom: 2%">
+                            <div class="control">
+                                <input class="input" type="password" placeholder="Confirm password"/>
+                            </div>
+                        </div>
+                        <a class="button is-danger is-focused is-large is-fullwidth">Sign Up Now!</a>
+                    </div>
                 </div>
             </div>
         </div>
