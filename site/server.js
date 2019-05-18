@@ -49,8 +49,11 @@ async function start() {
         service.listen(port, "localhost");
         let address = "http://localhost";
         if (port != 80) address = address + ":" + port;
-        openDB();
-        console.log("Server running at", address);
+        initDB();
+        addUser(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
+        getUser(1234);
+        getAllUsers();
+        console.log("Server running at", address);  
     }
     catch (err) { console.log(err); process.exit(1); }
 }
@@ -68,11 +71,23 @@ function closeDB() {
 }
 
 function initDB() {
-    return undefined;
+    db.run("CREATE TABLE IF NOT EXISTS users (uid PRIMARY KEY, fname, lname, email, passhash, salt, photoURL)", function (err) {
+        if (err !== null) {
+            console.log("SERVER ERROR: \n" + err);
+        } else {
+            console.log("DATABASE: Connected to database");
+        }
+    });
 }
 
-function addUser(fname, lname, email, passhash, salt) {
-    return undefined
+function addUser(uid, fname, lname, email, passhash, salt) {
+    db.run("INSERT INTO users (uid, fname, lname, email, passhash, salt) VALUES (?, ?, ?, ?, ?, ?)", [uid, fname, lname, email, passhash, salt], function (err) {
+        if (err !== null) {
+            console.log("[SERVER] ERROR: \n" + err);
+        } else {
+            console.log("[SERVER] DATABASE: Created new user");
+        }
+    });
 }
 
 function deleteUser(uid) {
@@ -80,7 +95,29 @@ function deleteUser(uid) {
 }
 
 function getUser(uid) {
-    return undefined;
+    let sql = "SELECT fname, lname, email FROM users WHERE uid = ?";
+    db.get(sql, [uid], (err, row) => {
+        if (err) {
+          return console.error(err.message);
+        }
+        return row
+          ? console.log(row.fname, row.lname, row.email)
+          : console.log(`No user found with the uid ${uid}`);
+    });
+}
+function getAllUsers() {
+    let sql = `SELECT uid, fname, lname FROM users
+           ORDER BY lname`;
+ 
+    db.all(sql, [], (err, rows) => {
+    if (err) {
+        throw err;
+    }
+    rows.forEach((row) => {
+        console.log(row.uid, row.fname, row.lname);
+    });
+    });
+ 
 }
 
 function updateUserEmail(uid, email) {
