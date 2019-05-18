@@ -54,6 +54,9 @@ async function start() {
         addUser(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
         getUser(1234);
         getAllUsers();
+        updateUserEmail(1234, "mr16338@bristol.ac.uk");
+        getUser(1234);
+        updateUserPassword(1234, "skjakjds", "sdadsa");
         deleteUser(1234);
         getAllUsers();});
         console.log("Server running at", address);  
@@ -129,11 +132,21 @@ function getAllUsers() {
 }
 
 function updateUserEmail(uid, email) {
-    return undefined;
+    db.run("UPDATE users SET email = ? WHERE uid = ?", [email, uid], function (err) {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log("Updated email to: ", email);
+    });
 }
 
 function updateUserPassword(uid, newHash, newSalt) {
-    return undefined;
+    db.run("UPDATE users SET passhash = ?, salt = ? WHERE uid = ?", [newHash, newSalt, uid], function (err) {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log("Updated password");
+    });
 }
 
 // Serve a request by delivering a file.
