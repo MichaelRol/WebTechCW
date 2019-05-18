@@ -50,9 +50,12 @@ async function start() {
         let address = "http://localhost";
         if (port != 80) address = address + ":" + port;
         initDB();
+        db.serialize(() => {
         addUser(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
         getUser(1234);
         getAllUsers();
+        deleteUser(1234);
+        getAllUsers();});
         console.log("Server running at", address);  
     }
     catch (err) { console.log(err); process.exit(1); }
@@ -91,7 +94,12 @@ function addUser(uid, fname, lname, email, passhash, salt) {
 }
 
 function deleteUser(uid) {
-    return undefined;
+    db.run("DELETE FROM users WHERE uid = ?", uid, function(err) {
+        if (err) {
+            return console.error(err.message);
+        }
+        console.log("User deleted");
+    })
 }
 
 function getUser(uid) {
@@ -110,12 +118,12 @@ function getAllUsers() {
            ORDER BY lname`;
  
     db.all(sql, [], (err, rows) => {
-    if (err) {
-        throw err;
-    }
-    rows.forEach((row) => {
-        console.log(row.uid, row.fname, row.lname);
-    });
+        if (err) {
+            throw err;
+        }
+        rows.forEach((row) => {
+            console.log(row.uid, row.fname, row.lname);
+        });
     });
  
 }
