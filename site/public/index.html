@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
-    
     <head>
         <!-- charset meta tag -->
         <meta charset="UTF-8"/> 
@@ -26,6 +25,10 @@
     </head>
     <!-- BEGIN BODY -->
     <body>
+        <!-- LOADING ANIMATION -->
+        <div class="loader1" id="loader1">
+            <img src="Images/Logo.gif"/>
+        </div>
         <div class="columns is-gapless is-vcentered">
             <!-- LEFT SIDE LOGO COLUMN -->
             <div class="column is-two-fifths">
@@ -72,7 +75,7 @@
                             <input type="checkbox"/>
                             Keep me signed in
                         </label>
-                        <a class="button is-danger is-focused is-large is-fullwidth">Login!</a>
+                        <a onclick="loader()" class="button is-danger is-focused is-large is-fullwidth">Login!</a>
                     </div>
                     <!-- SIGNUP TAB -->
                     <div id="signup" class="content-tab" style="display:none">

@@ -1,3 +1,4 @@
+"use strict";
 function openTab(evt, tabName) {
   var i, x, tablinks;
   x = document.getElementsByClassName("content-tab");
@@ -10,4 +11,10 @@ function openTab(evt, tabName) {
   }
   document.getElementById(tabName).style.display = "block";
   evt.currentTarget.className += " is-active";
+}
+
+function loader() {
+    var loader1;
+    loader1 = document.getElementById("loader1");
+    loader1.className = "loader1 hidden";
 }
