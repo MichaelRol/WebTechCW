@@ -22,6 +22,11 @@ const sqlite3 = require('sqlite3').verbose();
 // The file types supported are set up in the defineTypes function.
 // The paths variable is a cache of url paths in the site, to check case.
 let http = require("http");
+let express = require("express");
+let server = express();
+let path = require("path");
+var staticPath = path.join(__dirname, '/public');
+server.use(express.static(staticPath));
 let fs = require("fs").promises;
 let OK = 200, NotFound = 404, BadType = 415, Error = 500;
 let types, paths;
@@ -45,10 +50,13 @@ async function start() {
         types = defineTypes();
         paths = new Set();
         paths.add("/");
-        let service = http.createServer(handle);
-        service.listen(port, "localhost");
-        let address = "http://localhost";
-        if (port != 80) address = address + ":" + port;
+        server.listen(8080, function() {
+            console.log('[SERVER] STATUS: Express HTTP server on listening on port 8080');
+        });
+        // let service = http.createServer(handle);
+        // service.listen(port, "localhost");
+        // let address = "http://localhost";
+        // if (port != 80) address = address + ":" + port;
         initDB();
         db.serialize(() => {
         addUser(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
@@ -59,7 +67,6 @@ async function start() {
         updateUserPassword(1234, "skjakjds", "sdadsa");
         deleteUser(1234);
         getAllUsers();});
-        console.log("Server running at", address);  
     }
     catch (err) { console.log(err); process.exit(1); }
 }
@@ -244,3 +251,9 @@ function defineTypes() {
     }
     return types;
 }
+
+
+// ------------ HTTP FUNCTIONS -----------------
+server.get("/", function(req, res) {
+    res.sendFile("/public/");
+});
