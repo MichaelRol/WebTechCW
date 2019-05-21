@@ -39,11 +39,12 @@ function post_signup() {
     pass1: inputs[4].value,
     pass2: inputs[5].value
   }
-  // $.post("/API-signup", payload)
-  // .done(function (data, status) {
-  //  console.log("woooooooooooooo");
-  //  })
-  // .fail(function (xhr, error, statusCode) {
-  //  console.log("What up ganster");
-  //  });
+  var httpreq = new XMLHttpRequest();
+  httpreq.open("POST", "/signup", true);
+  httpreq.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  httpreq.onload = function () {
+    // do something to response
+    console.log(this.responseText);
+  };
+  httpreq.send(JSON.stringify(payload));
 }

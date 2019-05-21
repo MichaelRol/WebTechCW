@@ -257,3 +257,9 @@ function defineTypes() {
 server.get("/", function(req, res) {
     res.sendFile("/public/");
 });
+
+server.post("/signup", function(req, res) {
+    console.log("SIGNUP RECIEVED");
+    res.send("WOOPITY SCOOP");
+
+});
