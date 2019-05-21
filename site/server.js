@@ -141,7 +141,7 @@ function updateUserEmail(uid, email) {
 }
 
 function updateUserPassword(uid, newHash, newSalt) {
-    db.run("UPDATE users SET passhash = ?, salt = ? WHERE uid = ?", [newHash, newSalt, uid], function (err) {
+    db.run("UPDATE users SET passhash = ?,   salt = ? WHERE uid = ?", [newHash, newSalt, uid], function (err) {
         if (err) {
             return console.error(err.message);
         }
