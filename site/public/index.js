@@ -41,7 +41,7 @@ function post_signup() {
   }
   var httpreq = new XMLHttpRequest();
   httpreq.open("POST", "/signup", true);
-  httpreq.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  httpreq.setRequestHeader('Content-type', 'application/JSON');
   httpreq.onload = function () {
     // do something to response
     console.log(this.responseText);

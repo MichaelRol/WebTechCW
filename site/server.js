@@ -24,6 +24,8 @@ const sqlite3 = require('sqlite3').verbose();
 let http = require("http");
 let express = require("express");
 let server = express();
+const bodyParser = require('body-parser');
+server.use(bodyParser.json());
 let path = require("path");
 var staticPath = path.join(__dirname, '/public');
 server.use(express.static(staticPath));
@@ -259,7 +261,7 @@ server.get("/", function(req, res) {
 });
 
 server.post("/signup", function(req, res) {
-    console.log("SIGNUP RECIEVED");
-    res.send("WOOPITY SCOOP");
+    // console.log(req.body);
+    res.json({requestBody: req.body})
 
 });
