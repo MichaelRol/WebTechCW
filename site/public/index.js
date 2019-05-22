@@ -54,6 +54,7 @@ function over_18(dob) {
   }
   return false;
 }
+
 // Validate signup form data
 function validate_signup() {
   let x = document.getElementById("signup").elements;

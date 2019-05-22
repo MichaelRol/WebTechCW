@@ -59,23 +59,17 @@ async function start() {
         // service.listen(port, "localhost");
         // let address = "http://localhost";
         // if (port != 80) address = address + ":" + port;
-        initDB();
+        init_db();
         db.serialize(() => {
-        addUser(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
-        getUser(1234);
-        getAllUsers();
-        updateUserEmail(1234, "mr16338@bristol.ac.uk");
-        getUser(1234);
-        updateUserPassword(1234, "skjakjds", "sdadsa");
-        deleteUser(1234);
-        getAllUsers();});
+        add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
+        get_user(1234);});
     }
     catch (err) { console.log(err); process.exit(1); }
 }
 
 // ------------ DATABASE FUNCTIONS --------------
 
-function closeDB() {
+function close_db() {
     // close the database connection
     db.close((err) => {
         if (err) {
@@ -85,7 +79,7 @@ function closeDB() {
     });
 }
 
-function initDB() {
+function init_db() {
     db.run("CREATE TABLE IF NOT EXISTS users (uid PRIMARY KEY, fname, lname, email, passhash, salt, photoURL)", function (err) {
         if (err !== null) {
             console.log("SERVER ERROR: \n" + err);
@@ -95,7 +89,7 @@ function initDB() {
     });
 }
 
-function addUser(uid, fname, lname, email, passhash, salt) {
+function add_user(uid, fname, lname, email, passhash, salt) {
     db.run("INSERT INTO users (uid, fname, lname, email, passhash, salt) VALUES (?, ?, ?, ?, ?, ?)", [uid, fname, lname, email, passhash, salt], function (err) {
         if (err !== null) {
             console.log("[SERVER] ERROR: \n" + err);
@@ -105,7 +99,7 @@ function addUser(uid, fname, lname, email, passhash, salt) {
     });
 }
 
-function deleteUser(uid) {
+function delete_user(uid) {
     db.run("DELETE FROM users WHERE uid = ?", uid, function(err) {
         if (err) {
             return console.error(err.message);
@@ -114,7 +108,7 @@ function deleteUser(uid) {
     })
 }
 
-function getUser(uid) {
+function get_user(uid) {
     let sql = "SELECT fname, lname, email FROM users WHERE uid = ?";
     db.get(sql, [uid], (err, row) => {
         if (err) {
@@ -125,7 +119,7 @@ function getUser(uid) {
           : console.log(`No user found with the uid ${uid}`);
     });
 }
-function getAllUsers() {
+function get_all_users() {
     let sql = `SELECT uid, fname, lname FROM users
            ORDER BY lname`;
  
@@ -140,7 +134,7 @@ function getAllUsers() {
  
 }
 
-function updateUserEmail(uid, email) {
+function update_user_email(uid, email) {
     db.run("UPDATE users SET email = ? WHERE uid = ?", [email, uid], function (err) {
         if (err) {
             return console.error(err.message);
@@ -149,13 +143,31 @@ function updateUserEmail(uid, email) {
     });
 }
 
-function updateUserPassword(uid, newHash, newSalt) {
+function update_user_password(uid, newHash, newSalt) {
     db.run("UPDATE users SET passhash = ?,   salt = ? WHERE uid = ?", [newHash, newSalt, uid], function (err) {
         if (err) {
             return console.error(err.message);
         }
         console.log("Updated password");
     });
+}
+
+function get_all_emails() {
+    let emails = [];
+    db.serialize(() => {
+        db.all("SELECT email FROM users", [], (err, rows) => {
+            if (err) {
+                throw err;
+            }
+            rows.forEach((row) => {
+                emails.push(row);
+                console.log(row);
+            })
+        });
+    });
+    console.log("WOWOWOWOW");
+    return emails;
+    
 }
 
 // Serve a request by delivering a file.
@@ -254,6 +266,42 @@ function defineTypes() {
     return types;
 }
 
+// Check string only contains letters
+function all_letters(input) {
+    var letters = /^[A-Za-z]+$/;
+    if (input.match(letters)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  // Check email address has valid format
+  function validate_email(email) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return (true);
+    }
+    return (false);
+  }
+  
+  // Check user DOB means they ae over 19
+  function over_18(dob) {
+    let string_age = dob;
+    let year = parseInt(string_age.slice(0, 4));
+    let month = parseInt(string_age.slice(5, 8)) - 1;
+    let day = parseInt(string_age.slice(8, 11));
+    let today  = new Date();
+    let age = today.getFullYear() - year;
+    if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
+      age--;
+    }
+  
+    if (age >= 18) {
+      return true;
+    }
+    return false;
+  }
+
 // ------------ Validate incoming data/request functions ------------
 
 function validate_signup_request(req) {
@@ -274,8 +322,26 @@ function validate_signup_request(req) {
     return true;
 }
 
-function validate_signup_data(data) {
-
+function validate_signup_data(req) {
+    if (req.email1 != req.email2) {
+        return 1; // Emails don't mathc
+    } else if (req.pass1 != req.pass2) {
+        return 2; // Passwords don't match;
+    } else if (req.pass1.length < 10 || req.pass1.length > 128) {
+        return 3; // Incorrect password length
+    } else if (!all_letters(req.fname) || !all_letters(req.lname)) {
+        return 4; // Names contains non-letter characters
+    } else if (!validate_email(req.email1)) {
+        return 5; // Invalid email
+    } else if (!over_18(req.dob)) {
+        return 6; // Underage
+    } else if (parseInt(req.dob.slice(0, 4)) < 1900) {
+        return 7; // Year of birth too long ago
+    } else if (get_all_emails().includes(req.email1)) {
+        return 8; // Email already registered
+    } else {
+        return 0; // Success 
+    }
 }
 
 
@@ -285,9 +351,12 @@ server.get("/", function(req, res) {
 });
 
 server.post("/signup", function(req, res) {
-    // console.log(req.body);
     if (validate_signup_request(req.body)) {
-        res.send("SUCSESS");
+        if (validate_signup_data(req.body) == 0) {
+            res.send("SUCSESS");
+        } else {
+            res.send("ERROR");
+        }
     }
 
 });
