@@ -14,7 +14,23 @@ function openTab(evt, tabName) {
   evt.currentTarget.className += " is-active";
 }
 
-function signup() {
+function all_letters(input) {
+  var letters = /^[A-Za-z]+$/;
+  if (input.value.match(letters)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function validate_email(email) {
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value)) {
+    return (true);
+  }
+  return (false);
+}
+
+function validate_signup() {
   var x = document.getElementById("signup").elements;
   var count = 0;
   for(var i = 0; i < x.length; i++){
@@ -22,8 +38,19 @@ function signup() {
       count++;
     }
   }
+
   if (count < 6) {
-    document.getElementById("warn").innerHTML = "All fields must be completed."
+    document.getElementById("warn").innerHTML = "All fields must be completed.";
+  } else if (x[2].value != x[3].value) {
+    document.getElementById("warn").innerHTML = "Emails do not match.";
+  } else if (x[4].value != x[5].value) {
+    document.getElementById("warn").innerHTML = "Passwords do not match";
+  } else if (x[4].value.length < 10 || x[4].value.length > 128) {
+    document.getElementById("warn").innerHTML = "Password should be between 10 and 128 characters";
+  } else if (!all_letters(x[0]) || !all_letters(x[1])) {
+    document.getElementById("warn").innerHTML = "Names should only contain letters";
+  } else if (!validate_email(x[2])) {
+    document.getElementById("warn").innerHTML = "Please enter a valid email";
   } else {
     post_signup();
   }

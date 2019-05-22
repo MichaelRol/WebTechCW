@@ -262,6 +262,6 @@ server.get("/", function(req, res) {
 
 server.post("/signup", function(req, res) {
     // console.log(req.body);
-    res.json({requestBody: req.body})
+    res.json(req.body.fname)
 
 });
