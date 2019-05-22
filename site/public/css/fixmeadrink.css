@@ -1,0 +1,43 @@
+#navitem {
+    width: 33%;
+    align-items: center;
+    align-content: stretch;
+}
+
+#navitemwords {
+    width: 100%;
+    text-align: center;
+    font-size: 120%;
+}
+
+#contentSection {
+    width: 100%;
+}
+
+#name {
+    margin-top: 5vw;
+    font-size: 300%;
+    margin-bottom: 2%;
+}
+
+body {
+    height: 100vh;
+}
+
+img {
+    height: 100%;
+    margin-left: auto;
+}
+
+.columns.is-mobile.is-centered {
+    height: 65%;
+}
+
+.column {
+    display: flex;
+    justify-content: center;
+}
+
+svg {
+    width: 33%;
+}
