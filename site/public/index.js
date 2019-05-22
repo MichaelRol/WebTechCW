@@ -81,7 +81,6 @@ function validate_signup() {
   } else if(parseInt(x[2].value.slice(0, 4)) < 1900) {
     document.getElementById("warn").innerHTML = "Nobody is that old.";
   } else {
-    console.log(parseInt(x[2].value.slice(0, 4)));
     post_signup();
   }
 } 

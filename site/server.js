@@ -254,14 +254,40 @@ function defineTypes() {
     return types;
 }
 
+// ------------ Validate incoming data/request functions ------------
 
-// ------------ HTTP FUNCTIONS -----------------
+function validate_signup_request(req) {
+    if (Object.keys(req).length == 7) {
+        let expected = ["fname", "lname", "dob", "email1", "email2", "pass1", "pass2"];
+        let keys = Object.keys(req);
+        for (let i = 0; i < 7; i++) {
+            if (expected[i] != keys[i]) { 
+                return false;
+            }
+            if (req[expected[i]] == "") { 
+                return false; 
+            }
+        }
+    } else { 
+        return false; 
+    }
+    return true;
+}
+
+function validate_signup_data(data) {
+
+}
+
+
+// ------------ HTTP FUNCTIONS ------------
 server.get("/", function(req, res) {
     res.sendFile("/public/");
 });
 
 server.post("/signup", function(req, res) {
     // console.log(req.body);
-    res.json(req.body)
+    if (validate_signup_request(req.body)) {
+        res.send("SUCSESS");
+    }
 
 });
