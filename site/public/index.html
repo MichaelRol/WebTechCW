@@ -10,9 +10,6 @@
         <script src="index.js"></script>
         <!-- Font awesome icons -->
         <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-    
-        <!-- VUE CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <!-- SCSS loaded bulma stylesheet -->
         <link rel="stylesheet" href="css/bulma_import.css"></link>
         <!-- Own stylesheet -->
@@ -75,8 +72,9 @@
                         <a onclick="loader()" class="button is-danger is-focused is-large is-fullwidth">Login!</a>
                     </div>
                     <!-- SIGNUP TAB -->
-                    <div id="signup" class="content-tab" style="display:none">
+                    <form id="signup" class="content-tab" style="display:none">
                         <!-- Entry fields -->
+                        <p id="warn"></p>
                         <div class="field" style="padding-top: 10%">
                             <div class="control">
                                 <input class="input" type="text" placeholder="First name"/>
@@ -112,8 +110,8 @@
                                 <input class="input" type="password" placeholder="Confirm password"/>
                             </div>
                         </div>
-                        <a class="button is-danger is-focused is-large is-fullwidth">Sign Up Now!</a>
-                    </div>
+                        <a class="button is-danger is-focused is-large is-fullwidth" onclick="signup()">Sign Up Now!</a>
+                    </form>
                 </div>
             </div>
         </div>
