@@ -17,6 +17,6 @@ function playanim() {
             window.onmousemove = ({ clientX }) => {
             timeline.progress(clientX / window.innerWidth)
             }
-    })
+        })
     }
 }
