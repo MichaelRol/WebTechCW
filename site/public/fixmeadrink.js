@@ -12,7 +12,8 @@ function untilt(item) {
 
 function playanim() {
     if (loaded === 0) {
-        spirit.loadAnimation({ autoPlay: false, loop: true, yoyo: true, container: document.getElementById("svg8"), path:       './Images/smoke.json' })
+        loaded = 1;
+        spirit.loadAnimation({ autoPlay: true, loop: true, yoyo: true, container: document.getElementById("1"), path:       './Images/smoke.json' })
         .then(timeline => {
             window.onmousemove = ({ clientX }) => {
             timeline.progress(clientX / window.innerWidth)
@@ -20,3 +21,11 @@ function playanim() {
         })
     }
 }
+
+function selectbase(item) {
+    console.log(item);
+    document.getElementById("choosebase").style.visibility = "hidden";
+    document.getElementById("choosetaste").style.visibility = "visible";
+    document.getElementById("name").innerHTML = "What flavour are you going for?";
+}
+
