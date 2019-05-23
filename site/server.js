@@ -16,9 +16,17 @@ let fs = require("fs").promises;
 let uuid = require("uuid/v4");
 let bcrypt = require("bcrypt");
 
+// For HTTPS certificates
+let https = require("https");
+let fs2 = require("fs");
+let httpsOptions = {
+    cert : fs2.readFileSync(path.join(__dirname, 'SSL', 'server.cert')),
+    key : fs2.readFileSync(path.join(__dirname, 'SSL', 'server.key'))
+}
+
 // Change the port to the default 80, if there are no permission issues and port
 // 80 isn't already in use. The root folder corresponds to the "/" url.
-let port = 8080;
+let port = 3443;
 let root = "./public"
 const sqlite3 = require('sqlite3').verbose();
 // let db = new sqlite3.Database(':memory:');
@@ -53,8 +61,8 @@ async function start() {
         types = defineTypes();
         paths = new Set();
         paths.add("/");
-        server.listen(8080, function() {
-            console.log('[SERVER] STATUS: Express HTTP server on listening on port 8080');
+        https.createServer(httpsOptions, server).listen(port, function() {
+            console.log('[SERVER] STATUS: Express HTTP server on listening on port 3443');
         });
         db.serialize(() => {
             drop_db();
