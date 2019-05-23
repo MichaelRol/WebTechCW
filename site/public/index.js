@@ -54,6 +54,7 @@ function over_18(dob) {
   }
   return false;
 }
+
 // Validate signup form data
 function validate_signup() {
   let x = document.getElementById("signup").elements;
@@ -81,7 +82,6 @@ function validate_signup() {
   } else if(parseInt(x[2].value.slice(0, 4)) < 1900) {
     document.getElementById("warn").innerHTML = "Nobody is that old.";
   } else {
-    console.log(parseInt(x[2].value.slice(0, 4)));
     post_signup();
   }
 } 
