@@ -45,11 +45,28 @@ svg {
 
 #choosetaste {
     top: 50%;
-    z-index: 99;
+    z-index: 1;
     position: absolute;
     width: 100%;
 }
 
+#martini {
+    width:256px;
+    height:256px;
+    margin: 0;
+}
+
 #choosebase {
-    top: 30%;
+    z-index: 3;
+}
+
+#result {
+    top: 50%;
+    z-index: 0;
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+}
+
+#vodka, #whisky {
 }
