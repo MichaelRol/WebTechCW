@@ -55,14 +55,14 @@ async function start() {
         server.listen(8080, function() {
             console.log('[SERVER] STATUS: Express HTTP server on listening on port 8080');
         });
-        // let service = http.createServer(handle);
-        // service.listen(port, "localhost");
-        // let address = "http://localhost";
-        // if (port != 80) address = address + ":" + port;
-        init_db();
         db.serialize(() => {
-        add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
-        get_user(1234);});
+            drop_db();
+            init_db();
+
+            add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
+            get_user(1234);
+            get_all_users();
+        });
     }
     catch (err) { console.log(err); process.exit(1); }
 }
@@ -76,6 +76,16 @@ function close_db() {
             return console.error(err.message);
         }
         console.log('Close the database connection.');
+    });
+}
+
+function drop_db() {
+    db.run("DROP TABLE IF EXISTS users", function (err) {
+        if (err) {
+            console.log("SERVER ERROR \n" + err);
+        } else {
+            console.log("SERVER: TABLE DROPPED");
+        }
     });
 }
 
@@ -153,21 +163,16 @@ function update_user_password(uid, newHash, newSalt) {
 }
 
 function get_all_emails() {
-    let emails = [];
-    db.serialize(() => {
-        db.all("SELECT email FROM users", [], (err, rows) => {
-            if (err) {
-                throw err;
-            }
-            rows.forEach((row) => {
-                emails.push(row);
-                console.log(row);
-            })
+    let emails = []
+    db.all("SELECT email FROM users", [], (err, rows) => {
+        if (err) {
+            throw err;
+        }
+        rows.forEach((row) => {
+            emails.push(row.email);
         });
+        return emails;
     });
-    console.log("WOWOWOWOW");
-    return emails;
-    
 }
 
 // Serve a request by delivering a file.
@@ -265,27 +270,39 @@ function defineTypes() {
     }
     return types;
 }
+// Generate hash and salt from password
+function generate_hash_and_salt(password) {
+    salt = undefined;
+    hash = undefined;
+    return (hash, salt);
+}
+
+// Create UID for user
+function generate_uid() {
+    uid = undefined;
+    return uid;
+}
 
 // Check string only contains letters
 function all_letters(input) {
     var letters = /^[A-Za-z]+$/;
     if (input.match(letters)) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+ }
   
   // Check email address has valid format
-  function validate_email(email) {
+function validate_email(email) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-      return (true);
+        return (true);
     }
     return (false);
-  }
+ }
   
   // Check user DOB means they ae over 19
-  function over_18(dob) {
+function over_18(dob) {
     let string_age = dob;
     let year = parseInt(string_age.slice(0, 4));
     let month = parseInt(string_age.slice(5, 8)) - 1;
@@ -293,14 +310,14 @@ function all_letters(input) {
     let today  = new Date();
     let age = today.getFullYear() - year;
     if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
-      age--;
+        age--;
     }
   
     if (age >= 18) {
-      return true;
+        return true;
     }
     return false;
-  }
+}
 
 // ------------ Validate incoming data/request functions ------------
 
@@ -323,6 +340,8 @@ function validate_signup_request(req) {
 }
 
 function validate_signup_data(req) {
+
+    get_all_users();
     if (req.email1 != req.email2) {
         return 1; // Emails don't mathc
     } else if (req.pass1 != req.pass2) {
@@ -337,8 +356,9 @@ function validate_signup_data(req) {
         return 6; // Underage
     } else if (parseInt(req.dob.slice(0, 4)) < 1900) {
         return 7; // Year of birth too long ago
-    } else if (get_all_emails().includes(req.email1)) {
-        return 8; // Email already registered
+    // } else if (emails.includes(req.email1)) {
+    //     console.log("8")
+    //     return 8; // Email already registered
     } else {
         return 0; // Success 
     }
@@ -353,6 +373,11 @@ server.get("/", function(req, res) {
 server.post("/signup", function(req, res) {
     if (validate_signup_request(req.body)) {
         if (validate_signup_data(req.body) == 0) {
+            // let uid = generate_uid();
+            // let hash_and_salt = generate_hash_and_salt(req.body.pass1);
+            let uid = "ldsjsasdf";
+            let hash_and_salt = ("asdfghjkl", "lkjhgfdsa");
+            add_user(uid, req.body.fname, req.body.lname, req.body.email1, hash_and_salt[0], hash_and_salt[1]);
             res.send("SUCSESS");
         } else {
             res.send("ERROR");
