@@ -15,12 +15,13 @@ const bodyParser = require('body-parser');
 let fs = require("fs").promises;
 let uuid = require("uuid/v4");
 let bcrypt = require("bcrypt");
+const sqlite3 = require('sqlite3').verbose();
+let sqlite = require("sqlite");
 
 // Change the port to the default 80, if there are no permission issues and port
 // 80 isn't already in use. The root folder corresponds to the "/" url.
-let port = 8080;
+let port = 8081;
 let root = "./public"
-const sqlite3 = require('sqlite3').verbose();
 // let db = new sqlite3.Database(':memory:');
 // Load the library modules, and define the global constants and variables.
 // Load the promises version of fs, so that async/await can be used.
@@ -33,13 +34,14 @@ var staticPath = path.join(__dirname, '/public');
 server.use(express.static(staticPath));
 let OK = 200, NotFound = 404, BadType = 415, Error = 500;
 let types, paths;
-let db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-        console.error(err.message);
-    }
-    console.log('Connected to the database.');
-});
+// let db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE, (err) => {
+//     if (err) {
+//         console.error(err.message);
+//     }
+//     console.log('Connected to the database.');
+// });
 
+let db;
 // Start the server:
 start();
 
@@ -53,128 +55,134 @@ async function start() {
         types = defineTypes();
         paths = new Set();
         paths.add("/");
-        server.listen(8080, function() {
-            console.log('[SERVER] STATUS: Express HTTP server on listening on port 8080');
+        server.listen(8081, function() {
+            console.log('[SERVER] STATUS: Express HTTP server on listening on port 8081');
         });
-        db.serialize(() => {
-            drop_db();
-            init_db();
-
-            add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
-            get_user(1234);
-            get_all_users();
-        });
+        await init_db();
+        await drop_db();
+        await create_db();
+        add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
+        get_user(1234);
+        get_all_users();
     }
     catch (err) { console.log(err); process.exit(1); }
 }
 
 // ------------ DATABASE FUNCTIONS --------------
 
-function close_db() {
+async function close_db() {
     // close the database connection
-    db.close((err) => {
-        if (err) {
-            return console.error(err.message);
-        }
-        console.log('Close the database connection.');
-    });
+    try {
+        await db.close();
+    } catch (err) {
+        console.log(err);
+    }
 }
 
-function drop_db() {
-    db.run("DROP TABLE IF EXISTS users", function (err) {
-        if (err) {
-            console.log("SERVER ERROR \n" + err);
-        } else {
-            console.log("SERVER: TABLE DROPPED");
-        }
-    });
+async function drop_db() {
+    try {
+        await db.run("DROP TABLE IF EXISTS users");
+    } catch (err) {
+        console.log(err);
+    }
 }
 
-function init_db() {
-    db.run("CREATE TABLE IF NOT EXISTS users (uid PRIMARY KEY, fname, lname, email, passhash, salt, photoURL)", function (err) {
-        if (err !== null) {
-            console.log("SERVER ERROR: \n" + err);
-        } else {
-            console.log("DATABASE: Connected to database");
-        }
-    });
+async function init_db() {
+    try {
+        db = await sqlite.open("./database.sqlite");
+    } catch (e) { console.log(e); }
 }
 
-function add_user(uid, fname, lname, email, passhash, salt) {
-    db.run("INSERT INTO users (uid, fname, lname, email, passhash, salt) VALUES (?, ?, ?, ?, ?, ?)", [uid, fname, lname, email, passhash, salt], function (err) {
-        if (err !== null) {
-            console.log("[SERVER] ERROR: \n" + err);
-        } else {
-            console.log("[SERVER] DATABASE: Created new user");
-        }
-    });
+async function create_db() {
+    try {
+        await db.run("CREATE TABLE IF NOT EXISTS users (uid PRIMARY KEY, fname, lname, email, passhash, salt, photoURL)");
+    } catch (err) {
+        console.log(err);
+    }
+    
 }
 
-function delete_user(uid) {
-    db.run("DELETE FROM users WHERE uid = ?", uid, function(err) {
-        if (err) {
-            return console.error(err.message);
-        }
-        console.log("User deleted");
-    })
+async function add_user(uid, fname, lname, email, passhash, salt) {
+    await db.run("INSERT INTO users (uid, fname, lname, email, passhash, salt) VALUES (?, ?, ?, ?, ?, ?)", [uid, fname, lname, email, passhash, salt]);
 }
 
-function get_user(uid) {
+async function delete_user(uid) {
+    let success = true;
+    try {
+        await db.run("DELETE FROM users WHERE uid = ?", uid);
+    } catch (err) {
+        success = false;
+        console.log(err);
+    }
+    if (success) {
+        console.log("User deleted.")
+    }
+}
+
+async function get_user(uid) {
     let sql = "SELECT fname, lname, email FROM users WHERE uid = ?";
-    db.get(sql, [uid], (err, row) => {
-        if (err) {
-          return console.error(err.message);
-        }
-        return row
-          ? console.log(row.fname, row.lname, row.email)
-          : console.log(`No user found with the uid ${uid}`);
-    });
+
+    try {
+        let user = await db.get(sql, [uid]);
+        console.log(user);
+    } catch (err) {
+        console.log(err);
+    }
 }
-function get_all_users() {
-    let sql = `SELECT uid, fname, lname, passhash, salt FROM users
+
+async function get_all_users() {
+    let sql = `SELECT uid, fname, lname, email FROM users
            ORDER BY lname`;
  
-    db.all(sql, [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-        rows.forEach((row) => {
-            console.log(row.uid, row.fname, row.lname, row.passhash, row.salt);
-        });
-    });
+    try {
+        let users = await db.all(sql, []);
+        console.log(users);
+    } catch (err) {
+        console.log(err);
+    }
  
 }
 
-function update_user_email(uid, email) {
-    db.run("UPDATE users SET email = ? WHERE uid = ?", [email, uid], function (err) {
-        if (err) {
-            return console.error(err.message);
-        }
-        console.log("Updated email to: ", email);
-    });
+async function update_user_email(uid, email) {
+    let success = true;
+
+    try {
+        await db.run("UPDATE users SET email = ? WHERE uid = ?", [email, uid]);
+    } catch (err) {
+        success = false;
+        console.log(err);
+    }
+    if (success) {
+        console.log("Email updated to: ", email);
+    }
 }
 
-function update_user_password(uid, newHash, newSalt) {
-    db.run("UPDATE users SET passhash = ?,   salt = ? WHERE uid = ?", [newHash, newSalt, uid], function (err) {
-        if (err) {
-            return console.error(err.message);
-        }
+async function update_user_password(uid, newHash, newSalt) {
+    let success = true;
+    try {
+        await db.run("UPDATE users SET passhash = ?,   salt = ? WHERE uid = ?", [newHash, newSalt, uid]);
+    } catch (err) {
+        success = false;
+        console.log(err);
+    }  
+    if (success) {
         console.log("Updated password");
-    });
+    }
+
 }
 
-function get_all_emails() {
-    let emails = []
-    db.all("SELECT email FROM users", [], (err, rows) => {
-        if (err) {
-            throw err;
-        }
-        rows.forEach((row) => {
-            emails.push(row.email);
-        });
-        return emails;
-    });
-}
+// function get_all_emails() {
+//     let emails = []
+//     db.all("SELECT email FROM users", [], (err, rows) => {
+//         if (err) {
+//             throw err;
+//         }
+//         rows.forEach((row) => {
+//             emails.push(row.email);
+//         });
+//         return emails;
+//     });
+// }
 
 // Serve a request by delivering a file.
 async function handle(request, response) {
@@ -376,13 +384,11 @@ server.get("/", function(req, res) {
 server.post("/signup", function(req, res) {
     if (validate_signup_request(req.body)) {
         if (validate_signup_data(req.body) == 0) {
-            db.serialize(() => {
-                let uid = generate_uid();
-                add_user(uid, req.body.fname, req.body.lname, req.body.email1, "", "");
-                generate_hash_and_salt(uid, req.body.pass1);
-                res.send("SUCCESS");
-                get_all_users();
-            });
+            let uid = generate_uid();
+            add_user(uid, req.body.fname, req.body.lname, req.body.email1, "", "");
+            generate_hash_and_salt(uid, req.body.pass1);
+            res.send("SUCCESS");
+            get_all_users();
         } else {
             res.send("ERROR");
         }
