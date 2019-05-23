@@ -36,7 +36,7 @@
             <div class="column">
                 <div class="entryfields">
                     <!-- Tabs to select login or sign up -->
-                    <div class="tabs is-centered is-small is-fullwidth" style="padding-top: 8%">
+                    <div class="tabs is-centered is-small is-fullwidth" id="tabs">
                         <ul>
                             <li class="tab is-active" onclick="openTab(event,'login')">
                                 <a>
@@ -55,7 +55,7 @@
                     </div>
                     <!-- LOGIN TAB -->
                     <div id="login" class="content-tab">
-                        <div class="field" style="padding-top: 10%">
+                        <div class="field" id="topfield">
                             <div class="control">
                                 <input class="input" type="email" placeholder="Email"/>
                             </div>
@@ -75,7 +75,7 @@
                     <form id="signup" class="content-tab" style="display:none">
                         <!-- Entry fields -->
                         <p id="warn"></p>
-                        <div class="field" style="padding-top: 10%">
+                        <div class="field" id="topfield">
                             <div class="control">
                                 <input class="input" type="text" placeholder="First name"/>
                             </div>

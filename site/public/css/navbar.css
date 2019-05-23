@@ -1,0 +1,15 @@
+.navbar.is-fixed-top.is-danger {
+    style="height: 8%;
+}
+
+.navbar-brand {
+    height: 100%;
+}
+
+.navbar-burger.burger {
+    height: 100%;
+}
+
+.navbar-start {
+    width: 100%;
+}

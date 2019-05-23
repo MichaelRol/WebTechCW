@@ -86,28 +86,34 @@ function selectflavour(flavour) {
     if (base === "vodka") {
         if (flavourChoice === "strong") {
             document.getElementById("resulttitle").innerHTML = "Vodka Martini";
+            document.getElementById("martini").src = "Images/kevin-kelly-1300016-unsplash_foreground.png";
             document.getElementById("resultwords").innerHTML = "Perfect for the midweek blues. Vodka and dry vermouth.";
         }
         else if (flavourChoice === "sweet") {
             document.getElementById("resulttitle").innerHTML = "French Martini";
+            document.getElementById("martini").src = "Images/kevin-kelly-1300016-unsplash_foreground.png";
             document.getElementById("resultwords").innerHTML = "For the sweet tooth cravings. Vodka, raspberry liqueur and a dash of pineapple juice.";
         }
         else if (flavourChoice === "smokey") {
             document.getElementById("resulttitle").innerHTML = "Smokey Maple";
+            document.getElementById("martini").src = "Images/cocktail2_royaltyfree.png";
             document.getElementById("resultwords").innerHTML = "A hint of sweetness to a strong oak flavour. Smoked vodka and a tablespoon of maple syrup.";
         }
     }
     else if (base === "whisky") {
         if (flavourChoice === "strong") {
             document.getElementById("resulttitle").innerHTML = "Manhattan";
+            document.getElementById("martini").src = "Images/kevin-kelly-1300016-unsplash_foreground.png";
             document.getElementById("resultwords").innerHTML = "A true classic. Bourbon or rye whisky, sweet vermouth, Angostura bitters.";
         }
         else if (flavourChoice === "sweet") {
             document.getElementById("resulttitle").innerHTML = "Old Fashioned";
+            document.getElementById("martini").src = "Images/cocktail2_royaltyfree.png";
             document.getElementById("resultwords").innerHTML = "Does this count as dessert? Bourbon, bitters, fresh orange, a cherry, a dash of syrup.";
         }
         else if (flavourChoice === "smokey") {
             document.getElementById("resulttitle").innerHTML = "Smoked Boulevardier";
+            document.getElementById("martini").src = "Images/cocktail2_royaltyfree.png";
             document.getElementById("resultwords").innerHTML = "Delightful on a cold night. Smoky whisky, sweet vermouth, campari. Add a lemon peel for garnish.";
         }
     }
