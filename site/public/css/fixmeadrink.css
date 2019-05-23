@@ -39,5 +39,34 @@ img {
 }
 
 svg {
-    width: 33%;
+    width: 100%;
+    height: auto;
+}
+
+#choosetaste {
+    top: 50%;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+}
+
+#martini {
+    width:256px;
+    height:256px;
+    margin: 0;
+}
+
+#choosebase {
+    z-index: 3;
+}
+
+#result {
+    top: 50%;
+    z-index: 0;
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+}
+
+#vodka, #whisky {
 }
