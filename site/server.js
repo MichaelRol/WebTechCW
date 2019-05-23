@@ -14,6 +14,7 @@ let path = require("path");
 const bodyParser = require('body-parser');
 let fs = require("fs").promises;
 let uuid = require("uuid/v4");
+let bcrypt = require("bcrypt");
 
 // Change the port to the default 80, if there are no permission issues and port
 // 80 isn't already in use. The root folder corresponds to the "/" url.
@@ -130,7 +131,7 @@ function get_user(uid) {
     });
 }
 function get_all_users() {
-    let sql = `SELECT uid, fname, lname FROM users
+    let sql = `SELECT uid, fname, lname, passhash, salt FROM users
            ORDER BY lname`;
  
     db.all(sql, [], (err, rows) => {
@@ -138,7 +139,7 @@ function get_all_users() {
             throw err;
         }
         rows.forEach((row) => {
-            console.log(row.uid, row.fname, row.lname);
+            console.log(row.uid, row.fname, row.lname, row.passhash, row.salt);
         });
     });
  
@@ -271,10 +272,13 @@ function defineTypes() {
     return types;
 }
 // Generate hash and salt from password
-function generate_hash_and_salt(password) {
-    salt = undefined;
-    hash = undefined;
-    return (hash, salt);
+function generate_hash_and_salt(uid, password) {
+    let saltRounds = 10;
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(password, salt, function(err, hash) {
+            update_user_password(uid, hash, salt);
+        });
+    });
 }
 
 // Create UID for user
@@ -341,7 +345,6 @@ function validate_signup_request(req) {
 
 function validate_signup_data(req) {
 
-    get_all_users();
     if (req.email1 != req.email2) {
         return 1; // Emails don't mathc
     } else if (req.pass1 != req.pass2) {
@@ -373,11 +376,13 @@ server.get("/", function(req, res) {
 server.post("/signup", function(req, res) {
     if (validate_signup_request(req.body)) {
         if (validate_signup_data(req.body) == 0) {
-            let uid = generate_uid();
-            // let hash_and_salt = generate_hash_and_salt(req.body.pass1);
-            let hash_and_salt = ("asdfghjkl", "lkjhgfdsa");
-            add_user(uid, req.body.fname, req.body.lname, req.body.email1, hash_and_salt[0], hash_and_salt[1]);
-            res.send("SUCSESS");
+            db.serialize(() => {
+                let uid = generate_uid();
+                add_user(uid, req.body.fname, req.body.lname, req.body.email1, "", "");
+                generate_hash_and_salt(uid, req.body.pass1);
+                res.send("SUCCESS");
+                get_all_users();
+            });
         } else {
             res.send("ERROR");
         }
