@@ -49,3 +49,11 @@ div.leftside {
         visibility: hidden;
     }
 }
+
+#tabs {
+    padding-top: 8%;
+}
+
+#topfield {
+    padding-top: 10%;
+}

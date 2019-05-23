@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="css/bulma_import.css"></link>
         <!-- Own stylesheet -->
         <link rel="stylesheet" href="css/fixmeadrink.css"></link>
+        <link rel="stylesheet" href="css/navbar.css"></link>
         <!-- GOogle fonts CDN -->
         <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
         <!-- own js -->
@@ -26,12 +27,12 @@
     <!-- BEGIN BODY -->
     <body>
         <!-- NAVBAR ON TOP OF PAGE -->
-        <nav class="navbar is-fixed-top is-danger" role="navigation" aria-label="main navigation" style="height: 8%;">
-            <div class="navbar-brand" style="height: 100%">
+        <nav class="navbar is-fixed-top is-danger" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
                 <a class="navbar-item" href="index.html">
                     <img src="Images/Logo.png" width="55" height="55"/>
                 </a>
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainnavbar" style="height: 100%">
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainnavbar">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
@@ -39,7 +40,7 @@
             </div>
             <div id= "mainnavbar" class="navbar-menu">
                 <!-- navbar start, navbar end -->
-                <div class="navbar-start" style= "width: 100%">
+                <div class="navbar-start">
                 <!-- navbar items -->
                     <a class="navbar-item is-tab" id="navitem">
                         <h1 id="navitemwords">My Profile</h1>
@@ -68,7 +69,7 @@
                 <img src="Images/whikybottle_plainsvg.svg" id="whisky" onmouseover="tilt(&quot;whisky&quot;)" onmouseout="untilt(&quot;whisky&quot;)" onclick="selectbase(&quot;whisky&quot;)"/>
             </div>
         </div>
-        <div class="columns is-mobile is-centered" id="choosetaste" style="visibility: hidden">
+        <div class="columns is-mobile is-centered" id="choosetaste">
             <div class="column has-text-centered" id="1">
                 <svg onmouseover="playanim()" onmouseout="stopanim(1)" onclick="selectflavour(&quot;smokey&quot;)"
                    xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
@@ -406,9 +407,9 @@
                 </svg>
             </div>
         </div>
-        <div class="columns is-mobile is-centered" id="result" style="visibility: hidden">
+        <div class="columns is-mobile is-centered" id="result">
             <div class="column is-full">
-                <img src="Images/kevin-kelly-1300016-unsplash_foreground.png" id="martini"/>
+                <img src="" id="martini"/>
                 <div>
                     <h1 class="title is-1" id="resulttitle"></h1>
                     <p id="resultwords"></p>
