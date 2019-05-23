@@ -9,6 +9,11 @@
 // application/xhtml+xml for instant feedback on XHTML errors. Content
 // negotiation is not implemented, so old browsers are not supported. Https is
 // not supported. Add to the list of file types in defineTypes, as necessary.
+let express = require("express");
+let path = require("path");
+const bodyParser = require('body-parser');
+let fs = require("fs").promises;
+let uuid = require("uuid/v4");
 
 // Change the port to the default 80, if there are no permission issues and port
 // 80 isn't already in use. The root folder corresponds to the "/" url.
@@ -21,15 +26,10 @@ const sqlite3 = require('sqlite3').verbose();
 // See http://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
 // The file types supported are set up in the defineTypes function.
 // The paths variable is a cache of url paths in the site, to check case.
-let http = require("http");
-let express = require("express");
 let server = express();
-const bodyParser = require('body-parser');
 server.use(bodyParser.json());
-let path = require("path");
 var staticPath = path.join(__dirname, '/public');
 server.use(express.static(staticPath));
-let fs = require("fs").promises;
 let OK = 200, NotFound = 404, BadType = 415, Error = 500;
 let types, paths;
 let db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -279,7 +279,7 @@ function generate_hash_and_salt(password) {
 
 // Create UID for user
 function generate_uid() {
-    uid = undefined;
+    uid = uuid();
     return uid;
 }
 
@@ -373,9 +373,8 @@ server.get("/", function(req, res) {
 server.post("/signup", function(req, res) {
     if (validate_signup_request(req.body)) {
         if (validate_signup_data(req.body) == 0) {
-            // let uid = generate_uid();
+            let uid = generate_uid();
             // let hash_and_salt = generate_hash_and_salt(req.body.pass1);
-            let uid = "ldsjsasdf";
             let hash_and_salt = ("asdfghjkl", "lkjhgfdsa");
             add_user(uid, req.body.fname, req.body.lname, req.body.email1, hash_and_salt[0], hash_and_salt[1]);
             res.send("SUCSESS");
