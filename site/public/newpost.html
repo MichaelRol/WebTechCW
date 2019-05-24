@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top" xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"> 
+    <head>
+        <!-- charset meta tag -->
+        <meta charset="UTF-8"/> 
+        <!-- Responsive meta tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- Title -->
+        <title>Drinky McDrinkface</title>
+        <!-- Font awesome icons -->
+        <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    
+        <!-- VUE CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- SCSS loaded bulma stylesheet -->
+        <link rel="stylesheet" href="css/bulma_import.css"></link>
+        <!-- Own stylesheet -->
+        <link rel="stylesheet" href="css/profile.css"></link>
+        <!-- GOogle fonts CDN -->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
+    </head>
+    <!-- BEGIN BODY -->
+    <body>
+        <!-- NAVBAR ON TOP OF PAGE -->
+        <nav class="navbar is-fixed-top is-danger" role="navigation" aria-label="main navigation" style="height: 8%;">
+            <div class="navbar-brand" style="height: 100%">
+                <a class="navbar-item" href="index.html">
+                    <img src="Images/Logo.png" width="55" height="55"/>
+                </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainnavbar" style="height: 100%">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id= "mainnavbar" class="navbar-menu">
+                <!-- navbar start, navbar end -->
+                <div class="navbar-start" style= "width: 100%">
+                <!-- navbar items -->
+                    <a class="navbar-item is-tab" id="navitem">
+                        <h1 id="navitemwords">My Profile</h1>
+                    </a>
+                    <a class="navbar-item is-tab" id="navitem">
+                        <h1 id="navitemwords">Bars Around Me</h1>
+                    </a>
+                    <a class="navbar-item is-tab is-expanded" id="navitem">
+                        <h1 id="navitemwords">Fix Me A Drink</h1>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <div id="contentSection" class="section">
+            <div class="columns">
+                <div class="column has-text-centered is-one-third">
+                    <figure class="image is-square">
+                        <img src="https://bulma.io/images/placeholders/128x128.png">
+                    </figure>
+                    <div class="file is-centered is-danger has-name is-full-width">
+                        <label class="file-label">
+                            <input class="file-input" type="file" name="image">
+                            <span class="file-cta">
+                                <span class="file-icon">
+                                    <i class="fas fa-upload"></i>
+                                </span>
+                                <span class="file-label">
+                                    Choose a file...
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                    <h1>Choose location</h1>
+                    <div class="select is-danger">
+                        <select>
+                            <option>Bar A</option>
+                            <option>Bar B</option>
+                            <option>Bar C</option>
+                            <option>Bar D</option>
+                            <option>Bar E</option>
+                            <option>Bar F</option>
+                            <option>Bar G</option>
+                            <option>Bar H</option>
+                        </select>
+                    </div> 
+                </div>
+                <div class="column">
+                    <textarea class="textarea" placeholder="Write your review here..."></textarea>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
