@@ -54,8 +54,9 @@
                         </ul>
                     </div>
                     <!-- LOGIN TAB -->
-                    <div id="login" class="content-tab">
-                        <div class="field" id="topfield">
+                    <form id="login" class="content-tab">
+                        <p id="login_warn"></p>
+                        <div class="field"  id="topfield">
                             <div class="control">
                                 <input class="input" type="email" placeholder="Email"/>
                             </div>
@@ -69,8 +70,8 @@
                             <input type="checkbox"/>
                             Keep me signed in
                         </label>
-                        <a onclick="loader()" class="button is-danger is-focused is-large is-fullwidth">Login!</a>
-                    </div>
+                        <a onclick="validate_login()" class="button is-danger is-focused is-large is-fullwidth">Login!</a>
+                    </form>
                     <!-- SIGNUP TAB -->
                     <form id="signup" class="content-tab" style="display:none">
                         <!-- Entry fields -->
