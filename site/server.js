@@ -15,7 +15,6 @@ const bodyParser = require('body-parser');
 let fs = require("fs").promises;
 let uuid = require("uuid/v4");
 let bcrypt = require("bcrypt");
-const sqlite3 = require('sqlite3').verbose();
 let sqlite = require("sqlite");
 
 // Change the port to the default 80, if there are no permission issues and port
@@ -171,18 +170,20 @@ async function update_user_password(uid, newHash, newSalt) {
 
 }
 
-// function get_all_emails() {
-//     let emails = []
-//     db.all("SELECT email FROM users", [], (err, rows) => {
-//         if (err) {
-//             throw err;
-//         }
-//         rows.forEach((row) => {
-//             emails.push(row.email);
-//         });
-//         return emails;
-//     });
-// }
+async function does_email_already_exist(email) {
+    try {
+        let rows = (await db.get('SELECT uid FROM users WHERE email = ?', email));
+        return !(typeof rows === "undefined");
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function get_all_emails() {
+    const emails = (await db.all("SELECT email FROM users", [])).map((row) => row.email);
+
+    return emails;
+}
 
 // Serve a request by delivering a file.
 async function handle(request, response) {
@@ -351,8 +352,7 @@ function validate_signup_request(req) {
     return true;
 }
 
-function validate_signup_data(req) {
-
+async function validate_signup_data(req) {
     if (req.email1 != req.email2) {
         return 1; // Emails don't mathc
     } else if (req.pass1 != req.pass2) {
@@ -367,11 +367,56 @@ function validate_signup_data(req) {
         return 6; // Underage
     } else if (parseInt(req.dob.slice(0, 4)) < 1900) {
         return 7; // Year of birth too long ago
-    // } else if (emails.includes(req.email1)) {
-    //     console.log("8")
-    //     return 8; // Email already registered
+    } else if (await does_email_already_exist(req.email1)) {
+        return 8; // Email already registered
     } else {
         return 0; // Success 
+    }
+}
+
+function validate_login_request(req) {
+    if (Object.keys(req).length == 2) {
+        let expected = ["email", "pass"];
+        let keys = Object.keys(req);
+        for (let i = 0; i < 2; i++) {
+            if (expected[i] != keys[i]) { 
+                return false;
+            }
+            if (req[expected[i]] == "") { 
+                return false; 
+            }
+        }
+    } else { 
+        return false; 
+    }
+    return true;
+}
+
+async function validate_login_data(req) {
+    try {
+        let sql = "SELECT passhash, salt FROM users WHERE email = ?";
+        let user = await db.get(sql, [req.email]);
+
+        // bcrypt.hash(req.pass, user.salt, function(err, hash) {
+        //     console.log(hash, user.passhash);
+        //     if (hash == user.passhash){
+        //         console.log("SHould login");
+        //         return 0;
+        //     } else {
+        //         console.log("Shouldn't log in");
+        //         return 1;
+        //     }
+        // });
+
+        let match = await bcrypt.compare(req.pass, user.passhash);
+        if (match) {
+            return 0;
+        } else {
+            return 1;
+        }
+
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -381,17 +426,39 @@ server.get("/", function(req, res) {
     res.sendFile("/public/");
 });
 
-server.post("/signup", function(req, res) {
-    if (validate_signup_request(req.body)) {
-        if (validate_signup_data(req.body) == 0) {
-            let uid = generate_uid();
-            add_user(uid, req.body.fname, req.body.lname, req.body.email1, "", "");
-            generate_hash_and_salt(uid, req.body.pass1);
-            res.send("SUCCESS");
-            get_all_users();
-        } else {
-            res.send("ERROR");
+server.post("/signup", async function(req, res) {
+    try {
+        if (validate_signup_request(req.body)) {
+            let error = await validate_signup_data(req.body);
+            if (error == 0) {
+                let uid = generate_uid();
+                add_user(uid, req.body.fname, req.body.lname, req.body.email1, "", "");
+                generate_hash_and_salt(uid, req.body.pass1);
+                res.send("SUCCESS");
+                get_all_users();
+            } else {
+                res.send("ERROR");
+            }
         }
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+server.post("/login", async function(req, res) {
+    try {
+        if (validate_login_request(req.body)) {
+            let error = await validate_login_data(req.body);
+            console.log(error);
+            if (error == 0) {
+                res.send("LOGIN SUCCESSFUL");
+            } else {
+                res.send("FAILED LOGING");
+            }
+        }
+    } catch (err) {
+        console.log(err);
     }
 
 });
