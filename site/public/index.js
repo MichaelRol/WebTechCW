@@ -86,6 +86,26 @@ function validate_signup() {
   }
 } 
 
+// Validate signup form data
+function validate_login() {
+  let x = document.getElementById("login").elements;
+  let count = 0;
+  for(let i = 0; i < x.length; i++){
+    if (x[i].value.length > 0) {
+      count++;
+    }
+  }
+
+  if (count < 2) {
+    document.getElementById("login_warn").innerHTML = "All fields must be completed.";
+  } else if (!validate_email(x[0])) {
+    document.getElementById("login_warn").innerHTML = "Please enter a valid email";
+  } else {
+    post_login();
+  }
+} 
+
+
 // Send POST request to server with signup details
 function post_signup() {
   var inputs = document.getElementById("signup").elements;
@@ -100,6 +120,23 @@ function post_signup() {
   }
   var httpreq = new XMLHttpRequest();
   httpreq.open("POST", "/signup", true);
+  httpreq.setRequestHeader('Content-type', 'application/JSON');
+  httpreq.onload = function () {
+    // do something to response
+    console.log(this.responseText);
+  };
+  httpreq.send(JSON.stringify(payload));
+}
+
+// Send POST request to server with login details
+function post_login() {
+  var inputs = document.getElementById("login").elements;
+  var payload = {
+    email: inputs[0].value,
+    pass: inputs[1].value,
+  }
+  var httpreq = new XMLHttpRequest();
+  httpreq.open("POST", "/login", true);
   httpreq.setRequestHeader('Content-type', 'application/JSON');
   httpreq.onload = function () {
     // do something to response
