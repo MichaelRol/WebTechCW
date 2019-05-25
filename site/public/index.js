@@ -139,8 +139,10 @@ function post_login() {
   httpreq.open("POST", "/login", true);
   httpreq.setRequestHeader('Content-type', 'application/JSON');
   httpreq.onload = function () {
-    // do something to response
-    console.log(this.responseText);
+    // do something to response    
+    if (JSON.parse(this.response)['success'] == true) {
+      window.location.replace('/profile');
+    }
   };
   httpreq.send(JSON.stringify(payload));
 }
