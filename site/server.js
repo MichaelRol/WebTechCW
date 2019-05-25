@@ -407,7 +407,7 @@ async function validate_login_data(req) {
         let sql = "SELECT passhash, salt FROM users WHERE email = ?";
         let user = await db.get(sql, [req.body.email]);
         let match = await bcrypt.compare(req.body.pass, user.passhash);
-        
+
         if (match) {
             req.session.user = await db.get("SELECT uid FROM users WHERE email = ?", [req.body.email]);
             return 0;
@@ -441,10 +441,10 @@ server.post("/signup", async function(req, res) {
                 let uid = generate_uid();
                 add_user(uid, req.body.fname, req.body.lname, req.body.email1, "", "");
                 generate_hash_and_salt(uid, req.body.pass1);
-                res.send("SUCCESS");
+                res.send({success: true, info: "Signup successful, redirecting"});
                 get_all_users();
             } else {
-                res.send("ERROR");
+                res.send({success: false, info: error});
             }
         }
     } catch (err) {
@@ -457,7 +457,6 @@ server.post("/login", async function(req, res) {
     try {
         if (validate_login_request(req.body)) {
             let error = await validate_login_data(req);
-            console.log(error);
             if (error == 0) {
                 console.log(req.session.user.uid);
                 res.send({success: true, info: "Login successful, redirecting..."});
