@@ -1,6 +1,23 @@
 "use strict";
 
 get_profile();
+let fileInp;
+
+function upload_pic() {
+    fileInp = document.querySelector('[type="file"]');
+    fileInp.onchange = function(event) {
+        var photo = fileInp.files[0];
+        console.log(photo);
+        let req = new XMLHttpRequest();
+        let formData = new FormData();
+    
+        formData.append("photo", photo);                                
+        req.open("POST", '/upload_profile_pic', true);
+        req.send(formData);
+     }
+    fileInp.click();
+  
+}
 
 function get_profile() {
     var httpreq = new XMLHttpRequest();
@@ -10,7 +27,9 @@ function get_profile() {
         if (this.responseText == "missing") {
             window.location.replace("/missing-profile");
         } else {
-            document.getElementById("name").innerHTML = JSON.parse(this.response)['fname'] + " " + JSON.parse(this.response)['lname'];
+            let profile = JSON.parse(this.response);
+            document.getElementById("name").innerHTML = profile['fname'] + " " + profile['lname'];
+            document.getElementById("profile_pic").src = profile['photoURL'];
         }
 
             

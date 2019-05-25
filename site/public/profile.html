@@ -34,9 +34,10 @@
             <div class="columns is-vcentered is-variable is-0-mobile is-8-widescreen is-8-tablet is-8-fullhd">
                 <div class="column is-one-third" id="profpic">
                     <figure class="image is-square">
-                        <img src="Images/Logo.png"/>
+                        <img id="profile_pic" src="Images/profile_pics/default.png"/>
+                        <input type="file" style="display: none"/>
                         <div class="overlay">
-                            <a class="button is-medium is-danger" id="uploadprofilepic">Change profile picture</a>
+                            <a class="button is-medium is-danger" id="uploadprofilepic" onclick="upload_pic()">Change profile picture</a>
                         </div>
                     </figure>
                 </div>

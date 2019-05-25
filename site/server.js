@@ -105,6 +105,7 @@ async function init_db() {
 async function create_db() {
     try {
         await db.run("CREATE TABLE IF NOT EXISTS users (uid PRIMARY KEY, fname, lname, email, passhash, salt, photoURL)");
+        await db.run("CREATE TABLE IF NOT EXISTS posts (uid PRIMARY KEY, user, picURL, comment)");
     } catch (err) {
         console.log(err);
     }
@@ -112,7 +113,7 @@ async function create_db() {
 }
 
 async function add_user(uid, fname, lname, email, passhash, salt) {
-    await db.run("INSERT INTO users (uid, fname, lname, email, passhash, salt) VALUES (?, ?, ?, ?, ?, ?)", [uid, fname, lname, email, passhash, salt]);
+    await db.run("INSERT INTO users (uid, fname, lname, email, passhash, salt, photoURL) VALUES (?, ?, ?, ?, ?, ?, ?)", [uid, fname, lname, email, passhash, salt, "Images/profile_pics/default.png"]);
 }
 
 async function delete_user(uid) {
@@ -129,7 +130,7 @@ async function delete_user(uid) {
 }
 
 async function get_user(uid) {
-    let sql = "SELECT fname, lname, email FROM users WHERE uid = ?";
+    let sql = "SELECT fname, lname, photoURL FROM users WHERE uid = ?";
 
     try {
         let user = await db.get(sql, [uid]);
@@ -283,7 +284,7 @@ function defineTypes() {
         webm : "video/webm",
         ico  : "image/x-icon", // just for favicon.ico
         xhtml: undefined,      // non-standard, use .html
-        htm  : undefined,      // non-standard, use .html
+        htm  : undefined,      // non-standardhttps://localhost:3443/null, use .html
         rar  : undefined,      // non-standard, platform dependent, use .zip
         doc  : undefined,      // non-standard, platform dependent, use .pdf
         docx : undefined,      // non-standard, platform dependent, use .pdf
@@ -437,6 +438,7 @@ server.get("/load_profile", async function(req, res) {
     let user = await get_user(req.session.user.uid);
     if (user) {
         res.send(user);
+        console.log(user);
     } else {
         res.send("missing");
     }
@@ -473,6 +475,16 @@ server.post("/login", async function(req, res) {
                 res.send({success: false, info: "Email and password did not match"});
             }
         }
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+server.post("/upload_profile_pic", async function(req, res) {
+    try {
+        console.log(req.body);
+        console.log("Photo upload");
     } catch (err) {
         console.log(err);
     }
