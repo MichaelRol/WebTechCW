@@ -133,7 +133,7 @@ async function get_user(uid) {
 
     try {
         let user = await db.get(sql, [uid]);
-        console.log(user);
+        return user;
     } catch (err) {
         console.log(err);
     }
@@ -430,6 +430,15 @@ server.get("/profile", function(req, res) {
         let info = get_user(req.session.user.uid);
         console.log([info].fname);
         res.redirect("/profile.html");
+    }
+});
+
+server.get("/load_profile", async function(req, res) {
+    let user = await get_user(req.session.user.uid);
+    if (user) {
+        res.send(user);
+    } else {
+        res.send("missing");
     }
 });
 
