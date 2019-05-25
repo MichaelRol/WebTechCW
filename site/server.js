@@ -16,6 +16,7 @@ let fs = require("fs").promises;
 let uuid = require("uuid/v4");
 let bcrypt = require("bcrypt");
 let sqlite = require("sqlite");
+let session = require("express-session");
 
 // For HTTPS certificates
 let https = require("https");
@@ -33,10 +34,11 @@ let root = "./public"
 // Load the library modules, and define the global constants and variables.
 // Load the promises version of fs, so that async/await can be used.
 // See http://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
-// The file types supported are set up in the defineTypes function.
+// The file types supported are set up in the defineTypes function. 
 // The paths variable is a cache of url paths in the site, to check case.
 let server = express();
 server.use(bodyParser.json());
+server.use(session({secret:"qwertyuiop", resave:false, saveUninitialized:true}));
 var staticPath = path.join(__dirname, '/public');
 server.use(express.static(staticPath));
 let OK = 200, NotFound = 404, BadType = 415, Error = 500;
@@ -403,7 +405,7 @@ function validate_login_request(req) {
 async function validate_login_data(req) {
     try {
         let sql = "SELECT passhash, salt FROM users WHERE email = ?";
-        let user = await db.get(sql, [req.email]);
+        let user = await db.get(sql, [req.body.email]);
 
         // bcrypt.hash(req.pass, user.salt, function(err, hash) {
         //     console.log(hash, user.passhash);
@@ -416,8 +418,9 @@ async function validate_login_data(req) {
         //     }
         // });
 
-        let match = await bcrypt.compare(req.pass, user.passhash);
+        let match = await bcrypt.compare(req.body.pass, user.passhash);
         if (match) {
+            req.session.user = await db.get("SELECT uid FROM users WHERE email = ?", [req.body.email]);
             return 0;
         } else {
             return 1;
@@ -430,8 +433,15 @@ async function validate_login_data(req) {
 
 
 // ------------ HTTP FUNCTIONS ------------
-server.get("/", function(req, res) {
-    res.sendFile("/public/");
+server.get("/profile", function(req, res) {
+    if (!req.session.user) {
+        res.redirect("/");
+    }
+    else {
+        let info = get_user(req.session.user.uid);
+        console.log([info].fname);
+        res.redirect("/profile.html");
+    }
 });
 
 server.post("/signup", async function(req, res) {
@@ -457,9 +467,10 @@ server.post("/signup", async function(req, res) {
 server.post("/login", async function(req, res) {
     try {
         if (validate_login_request(req.body)) {
-            let error = await validate_login_data(req.body);
+            let error = await validate_login_data(req);
             console.log(error);
             if (error == 0) {
+                console.log(req.session.user.uid);
                 res.send("LOGIN SUCCESSFUL");
             } else {
                 res.send("FAILED LOGING");
@@ -470,3 +481,12 @@ server.post("/login", async function(req, res) {
     }
 
 });
+
+// ------------ BAD REQUESTS ------------
+server.get("*", function(req, res) {
+    res.redirect("/");
+})
+
+server.get("post", function(req, res) {
+    res.redirect("/");
+})

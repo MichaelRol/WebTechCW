@@ -5,6 +5,7 @@
   "main": "public/index.css",
   "dependencies": {
     "bulma": "^0.7.4",
+    "express-session": "^1.16.1",
     "node-sass": "^4.11.0"
   },
   "devDependencies": {},
