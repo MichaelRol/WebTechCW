@@ -65,7 +65,7 @@ async function start() {
         paths = new Set();
         paths.add("/");
         https.createServer(httpsOptions, server).listen(port, function() {
-            console.log('[SERVER] STATUS: Express HTTP server on listening on port 3443');
+            console.log('[SERVER] STATUS: Express HTTPS server on listening on port 3443');
         });
         await init_db();
         await drop_db();
