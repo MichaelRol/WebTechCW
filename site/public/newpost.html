@@ -16,38 +16,17 @@
         <link rel="stylesheet" href="css/bulma_import.css"></link>
         <!-- Own stylesheet -->
         <link rel="stylesheet" href="css/profile.css"></link>
+        <!-- Navbar stylesheet -->
+        <link rel="stylesheet" href="css/navbar.css"></link>
         <!-- GOogle fonts CDN -->
         <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
+        <!-- for navbar -->
+        <script src="navbar.js"></script>
     </head>
     <!-- BEGIN BODY -->
-    <body>
+    <body onload="loadnav()">
         <!-- NAVBAR ON TOP OF PAGE -->
-        <nav class="navbar is-fixed-top is-danger" role="navigation" aria-label="main navigation" style="height: 8%;">
-            <div class="navbar-brand" style="height: 100%">
-                <a class="navbar-item" href="index.html">
-                    <img src="Images/Logo.png" width="55" height="55"/>
-                </a>
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="mainnavbar" style="height: 100%">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-            <div id= "mainnavbar" class="navbar-menu">
-                <!-- navbar start, navbar end -->
-                <div class="navbar-start" style= "width: 100%">
-                <!-- navbar items -->
-                    <a class="navbar-item is-tab" id="navitem">
-                        <h1 id="navitemwords">My Profile</h1>
-                    </a>
-                    <a class="navbar-item is-tab" id="navitem">
-                        <h1 id="navitemwords">Bars Around Me</h1>
-                    </a>
-                    <a class="navbar-item is-tab is-expanded" id="navitem">
-                        <h1 id="navitemwords">Fix Me A Drink</h1>
-                    </a>
-                </div>
-            </div>
+        <nav class="navbar is-fixed-top is-danger" id="navbar" role="navigation" aria-label="main navigation">
         </nav>
         <div id="contentSection" class="section">
             <div class="columns">
