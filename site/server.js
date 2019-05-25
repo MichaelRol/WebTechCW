@@ -167,6 +167,20 @@ async function update_user_email(uid, email) {
     }
 }
 
+async function update_user_picture(uid, url) {
+    let success = true;
+
+    try {
+        await db.run("UPDATE users SET photoURL = ? WHERE uid = ?", [url, uid]);
+    } catch (err) {
+        success = false;
+        console.log(err);
+    }
+    if (success) {
+        console.log("profile picture updated");
+    }
+}
+
 async function update_user_password(uid, newHash, newSalt) {
     let success = true;
     try {
@@ -483,8 +497,8 @@ server.post("/login", async function(req, res) {
 
 server.post("/upload_profile_pic", async function(req, res) {
     try {
-        console.log(req.body);
-        console.log("Photo upload");
+        update_user_picture(req.session.user.uid, req.body.url);
+        console.log("Photo uploaded");
     } catch (err) {
         console.log(err);
     }

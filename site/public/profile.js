@@ -1,22 +1,46 @@
 "use strict";
 
 get_profile();
-let fileInp;
+var widget;
 
-function upload_pic() {
-    fileInp = document.querySelector('[type="file"]');
-    fileInp.onchange = function(event) {
-        var photo = fileInp.files[0];
-        console.log(photo);
-        let req = new XMLHttpRequest();
-        let formData = new FormData();
-    
-        formData.append("photo", photo);                                
-        req.open("POST", '/upload_profile_pic', true);
-        req.send(formData);
-     }
-    fileInp.click();
-  
+// window.onload
+window.onload = function() {
+    widget = cloudinary.createUploadWidget({ 
+    cloudName: "webtech-mn16660-mr16338", uploadPreset: "style1",
+    styles: {
+        palette: {
+            sourceBg: "#f4f4f5",
+            windowBorder: "#90a0b3",
+            inactiveTabIcon: "#555a5f",
+            menuIcons: "#555a5f",
+            complete: "#59D259",
+            error: "#cc0000",
+            textLight: "#fcfffd",
+            link: "#FF8383",
+            window: "#FF8383",
+            tabIcon: "#FFFFFF",
+            textDark: "#555A5F",
+            inProgress: "#FF8383",
+            action: "#FFFFFF"
+        },
+    }  
+    }, (error, result) => { 
+        if (result.event == "success") {
+            var payload = {
+                url: result.info.secure_url,
+            }
+            var httprequrl = new XMLHttpRequest();
+            httprequrl.open("POST", "/upload_profile_pic");
+            httprequrl.setRequestHeader('Content-type', 'application/JSON');
+            httprequrl.send(JSON.stringify(payload));
+            document.getElementById("profile_pic").src = result.info.secure_url;
+        }
+    });
+    loadnav();
+};
+
+function openwidget() {
+    widget.open();
 }
 
 function get_profile() {

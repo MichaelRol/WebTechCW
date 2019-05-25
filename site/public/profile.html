@@ -17,8 +17,9 @@
         <!-- Own stylesheet -->
         <link rel="stylesheet" href="css/profile.css"></link>
         <link rel="stylesheet" href="css/navbar.css"></link>
-
-
+        <!-- Cloudify upload widget -->
+        <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+        <!-- Own script -->
         <script src="profile.js"></script>
         <!-- GOogle fonts CDN -->
         <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
@@ -26,7 +27,7 @@
         <script src="navbar.js"></script>
     </head>
     <!-- BEGIN BODY -->
-    <body onload="loadnav()">
+    <body>
         <!-- NAVBAR ON TOP OF PAGE -->
         <nav class="navbar is-fixed-top is-danger" id="navbar" role="navigation" aria-label="main navigation">
         </nav>
@@ -37,7 +38,7 @@
                         <img id="profile_pic" src="Images/profile_pics/default.png"/>
                         <input type="file" style="display: none"/>
                         <div class="overlay">
-                            <a class="button is-medium is-danger" id="uploadprofilepic" onclick="upload_pic()">Change profile picture</a>
+                            <a class="button is-medium is-danger" id="uploadprofilepic" onclick="openwidget()">Change profile picture</a>
                         </div>
                     </figure>
                 </div>
