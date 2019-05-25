@@ -125,7 +125,7 @@ function post_signup() {
     // do something to response
     // REDIRECT TO SUCCESSFUL SIGNUP PAGE
     if (JSON.parse(this.response)['success'] == true) {
-      window.location.replace('/signup-success');
+      // window.location.replace('/signup-success');
     } else {
       if (JSON.parse(this.response)['info'] == 1) {
         document.getElementById("warn").innerHTML = "Emails do not match.";

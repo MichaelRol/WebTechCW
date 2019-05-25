@@ -17,13 +17,17 @@
         <!-- Own stylesheet -->
         <link rel="stylesheet" href="css/profile.css"></link>
         <link rel="stylesheet" href="css/navbar.css"></link>
+        <!-- Cloudify upload widget -->
+        <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+        <!-- Own script -->
+        <script src="profile.js"></script>
         <!-- GOogle fonts CDN -->
         <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
         <!-- for navbar -->
         <script src="navbar.js"></script>
     </head>
     <!-- BEGIN BODY -->
-    <body onload="loadnav()">
+    <body>
         <!-- NAVBAR ON TOP OF PAGE -->
         <nav class="navbar is-fixed-top is-danger" id="navbar" role="navigation" aria-label="main navigation">
         </nav>
@@ -31,14 +35,15 @@
             <div class="columns is-vcentered is-variable is-0-mobile is-8-widescreen is-8-tablet is-8-fullhd">
                 <div class="column is-one-third" id="profpic">
                     <figure class="image is-square">
-                        <img src="Images/Logo.png"/>
+                        <img id="profile_pic" src="Images/profile_pics/default.png"/>
+                        <input type="file" style="display: none"/>
                         <div class="overlay">
-                            <a class="button is-medium is-danger" id="uploadprofilepic">Change profile picture</a>
+                            <a class="button is-medium is-danger" id="uploadprofilepic" onclick="openwidget()">Change profile picture</a>
                         </div>
                     </figure>
                 </div>
                 <div class="column">
-                    <h1 id="name">Drinky McDrinkface</h1>
+                    <h1 id="name">Name Missing</h1>
                     <p id="bio">This is where you tell your story about how you are obsessed with perfectly made cocktails, and you would rather die than drink a cocktail at Spoons.</p>
                     <a class="button is-danger is-large" id="reviewbutton" href="newpost.html">Post review</a>
                 </div>
