@@ -406,19 +406,8 @@ async function validate_login_data(req) {
     try {
         let sql = "SELECT passhash, salt FROM users WHERE email = ?";
         let user = await db.get(sql, [req.body.email]);
-
-        // bcrypt.hash(req.pass, user.salt, function(err, hash) {
-        //     console.log(hash, user.passhash);
-        //     if (hash == user.passhash){
-        //         console.log("SHould login");
-        //         return 0;
-        //     } else {
-        //         console.log("Shouldn't log in");
-        //         return 1;
-        //     }
-        // });
-
         let match = await bcrypt.compare(req.body.pass, user.passhash);
+
         if (match) {
             req.session.user = await db.get("SELECT uid FROM users WHERE email = ?", [req.body.email]);
             return 0;
@@ -452,10 +441,10 @@ server.post("/signup", async function(req, res) {
                 let uid = generate_uid();
                 add_user(uid, req.body.fname, req.body.lname, req.body.email1, "", "");
                 generate_hash_and_salt(uid, req.body.pass1);
-                res.send("SUCCESS");
+                res.send({success: true, info: "Signup successful, redirecting"});
                 get_all_users();
             } else {
-                res.send("ERROR");
+                res.send({success: false, info: error});
             }
         }
     } catch (err) {
@@ -468,12 +457,11 @@ server.post("/login", async function(req, res) {
     try {
         if (validate_login_request(req.body)) {
             let error = await validate_login_data(req);
-            console.log(error);
             if (error == 0) {
                 console.log(req.session.user.uid);
-                res.send("LOGIN SUCCESSFUL");
+                res.send({success: true, info: "Login successful, redirecting..."});
             } else {
-                res.send("FAILED LOGING");
+                res.send({success: false, info: "Email and password did not match"});
             }
         }
     } catch (err) {

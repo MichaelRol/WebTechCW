@@ -80,7 +80,7 @@ function validate_signup() {
   } else if (!over_18(x[2])) {
     document.getElementById("warn").innerHTML = "You must be over 18 years old to access this website";
   } else if(parseInt(x[2].value.slice(0, 4)) < 1900) {
-    document.getElementById("warn").innerHTML = "Nobody is that old.";
+    document.getElementById("warn").innerHTML = "Please enter a valid date of birth.";;
   } else {
     post_signup();
   }
@@ -123,7 +123,29 @@ function post_signup() {
   httpreq.setRequestHeader('Content-type', 'application/JSON');
   httpreq.onload = function () {
     // do something to response
-    console.log(this.responseText);
+    // REDIRECT TO SUCCESSFUL SIGNUP PAGE
+    if (JSON.parse(this.response)['success'] == true) {
+      window.location.replace('/signup-success');
+    } else {
+      if (JSON.parse(this.response)['info'] == 1) {
+        document.getElementById("warn").innerHTML = "Emails do not match.";
+      } else if (JSON.parse(this.response)['info'] == 2) {
+        document.getElementById("warn").innerHTML = "Passwords do not match";
+      } else if (JSON.parse(this.response)['info'] == 3) {
+        document.getElementById("warn").innerHTML = "Password should be between 10 and 128 characters";
+      } else if (JSON.parse(this.response)['info'] == 4) {
+        document.getElementById("warn").innerHTML = "Names should only contain letters";
+      } else if (JSON.parse(this.response)['info'] == 5) {
+        document.getElementById("warn").innerHTML = "Please enter a valid email";
+      } else if (JSON.parse(this.response)['info'] == 6) {
+        document.getElementById("warn").innerHTML = "You must be over 18 years old to access this website";
+      } else if (JSON.parse(this.response)['info'] == 7) {
+        document.getElementById("warn").innerHTML = "Please enter a valid date of birth.";
+      } else if (JSON.parse(this.response)['info'] == 8) {
+        document.getElementById("warn").innerHTML = "Email already registered. <a href='#' onclick='openTab(event,&quot;login&quot;)'>Login?</a>";
+
+      }    
+    }
   };
   httpreq.send(JSON.stringify(payload));
 }
@@ -139,8 +161,12 @@ function post_login() {
   httpreq.open("POST", "/login", true);
   httpreq.setRequestHeader('Content-type', 'application/JSON');
   httpreq.onload = function () {
-    // do something to response
-    console.log(this.responseText);
+    // do something to response    
+    if (JSON.parse(this.response)['success'] == true) {
+      window.location.replace('/profile');
+    } else {
+      document.getElementById("login_warn").innerHTML = "Email and password do not match, please try again.";
+    }
   };
   httpreq.send(JSON.stringify(payload));
 }
