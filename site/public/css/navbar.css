@@ -13,3 +13,11 @@
 .navbar-start {
     width: 100%;
 }
+
+#myprofile, #bars, #drink {
+    width: 30%;
+}
+
+#logout {
+    width: 10%;
+}
