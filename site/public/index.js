@@ -142,10 +142,10 @@ function post_signup() {
       } else if (JSON.parse(this.response)['info'] == 7) {
         document.getElementById("warn").innerHTML = "Please enter a valid date of birth.";
       } else if (JSON.parse(this.response)['info'] == 8) {
-        document.getElementById("warn").innerHTML = "Email already registered. Login?"; 
+        document.getElementById("warn").innerHTML = "Email already registered. <a href='#' onclick='openTab(event,&quot;login&quot;)'>Login?</a>";
+
       }    
     }
-    console.log(this.responseText);
   };
   httpreq.send(JSON.stringify(payload));
 }
