@@ -1,4 +1,48 @@
 "use strict";
+
+window.onload = function() {
+  // Allow enter keypress to submit login details
+  document.getElementById('emailsub').onkeydown = function(e){
+    if(e.keyCode == 13){
+      validate_login();
+    }
+  };
+  document.getElementById('passsub').onkeydown = function(e){
+    if(e.keyCode == 13){
+      validate_login();
+    };
+  };  
+
+  // Allow enter keypress to submit signup details
+  document.getElementById('fname').onkeydown = function(e){
+    if(e.keyCode == 13){
+      validate_signup();
+    }
+  };
+  document.getElementById('lname').onkeydown = function(e){
+    if(e.keyCode == 13){
+      validate_signup();
+    }
+  };  document.getElementById('email').onkeydown = function(e){
+    if(e.keyCode == 13){
+      validate_signup();
+    }
+  };
+  document.getElementById('cemail').onkeydown = function(e){
+    if(e.keyCode == 13){
+      validate_signup();
+    }
+  };  document.getElementById('pass').onkeydown = function(e){
+    if(e.keyCode == 13){
+      validate_signup();
+    }
+  };
+  document.getElementById('cpass').onkeydown = function(e){
+    if(e.keyCode == 13){
+      validate_signup();
+    }
+  };
+};
 function openTab(evt, tabName) {
   var i, x, tablinks;
   x = document.getElementsByClassName("content-tab");
