@@ -11,6 +11,8 @@ div.leftside {
 
 .entryfields{
     padding: 5%;
+    height: inherit;
+    overflow: scroll;
 }
 
 .field {
