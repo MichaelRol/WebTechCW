@@ -513,7 +513,7 @@ server.get("/profile", function(req, res) {
 });
 
 server.get("/", function(req, res) {
-        res.sendFile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/public/index.html');
 });
 
 server.get("/signupsuccess", function(req, res) {
@@ -529,22 +529,30 @@ server.get("/error", function(req, res) {
 });
 
 server.get("/load_profile", async function(req, res) {
-    let user = await get_user(req.session.user.uid);
-    if (user) {
-        res.send(user);
-        console.log(user);
+    if (!req.session.user) {
+        res.sendFile(__dirname + '/public/index.html');
     } else {
-        res.send("missing");
+        let user = await get_user(req.session.user.uid);
+        if (user) {
+            res.send(user);
+            console.log(user);
+        } else {
+            res.redirect("/");
+        }
     }
 });
 
 server.get("/load_posts", async function(req, res) {
-    let posts = await get_posts_from_user(req.session.user.uid);
-    if (posts) {
-        res.send(posts);
-        console.log(posts);
-    } else {
-        res.send("missing");
+    try {
+        let posts = await get_posts_from_user(req.session.user.uid);
+        if (posts) {
+            res.send(posts);
+            console.log(posts);
+        } else {
+            res.send("missing");
+        }
+    } catch (err) {
+        res.send("Could not load posts");
     }
 });
 
@@ -610,7 +618,7 @@ server.post("/upload_post", async function(req, res) {
 
 // ------------ BAD REQUESTS ------------
 server.get("*", function(req, res) {
-    res.redirect("/error.html");
+    res.redirect("/error");
 })
 
 server.get("post", function(req, res) {
