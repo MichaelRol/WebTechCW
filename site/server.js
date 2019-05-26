@@ -505,12 +505,27 @@ async function validate_login_data(req) {
 server.get("/profile", function(req, res) {
     if (!req.session.user) {
         res.redirect("/");
-    }
-    else {
+    } else {
         let info = get_user(req.session.user.uid);
         console.log([info].fname);
-        res.redirect("/profile.html");
+        res.sendFile(__dirname + '/public/profile.html');
     }
+});
+
+server.get("/", function(req, res) {
+        res.sendFile(__dirname + '/public/index.html');
+});
+
+server.get("/signupsuccess", function(req, res) {
+    res.sendFile(__dirname + '/public/signupsuccess.html');
+});
+
+server.get("/newpost", function(req, res) {
+    res.sendFile(__dirname + '/public/newpost.html');
+});
+
+server.get("/error", function(req, res) {
+    res.sendFile(__dirname + '/public/error.html');
 });
 
 server.get("/load_profile", async function(req, res) {
