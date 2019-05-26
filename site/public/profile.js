@@ -38,8 +38,8 @@ window.onload = function() {
         }
     });
     loadnav();
-    get_posts();
     get_profile();
+    get_posts();
 };
 
 function openwidget() {
@@ -51,16 +51,14 @@ function get_profile() {
     httpreq.open("GET", "/load_profile", true);
     httpreq.setRequestHeader('Content-type', 'application/JSON');
     httpreq.onload = function () {
-        if (this.responseText == "missing") {
-            window.location.replace("/missing-profile");
-        } else {
+        try {
             var profile = JSON.parse(this.response);
             document.title = profile['fname'] + " " + profile['lname'];
             document.getElementById("name").innerHTML = profile['fname'] + " " + profile['lname'];
             document.getElementById("profile_pic").src = profile['photoURL'];
+        } catch (err) {
+            window.location.replace("/");
         }
-
-            
     };
     httpreq.send();
 
