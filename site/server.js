@@ -595,7 +595,7 @@ server.post("/upload_post", async function(req, res) {
 
 // ------------ BAD REQUESTS ------------
 server.get("*", function(req, res) {
-    res.redirect("/");
+    res.redirect("/error.html");
 })
 
 server.get("post", function(req, res) {
