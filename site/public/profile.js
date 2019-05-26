@@ -72,12 +72,13 @@ function get_posts() {
     httpreq2.setRequestHeader('Content-type', 'application/JSON');
     httpreq2.onload = function () {
         if (this.responseText == "missing") {
+            document.getElementById("loadmore").style.display ="none";
         } 
         else {
             posts = JSON.parse(this.response);
             console.log(posts);
             lengthofposts = posts.length-1;
-            for (var i = 0; i < lengthofposts; ++i) {
+            for (var i = 0; i < lengthofposts + 1; ++i) {
                 document.getElementById("postcollumn"+i).style.display = "block";
                 document.getElementById("post"+i).src = posts[i].picURL;
                 document.getElementById("location"+i).innerHTML = posts[i].location;

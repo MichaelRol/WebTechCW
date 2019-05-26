@@ -171,7 +171,7 @@ async function get_post(pid) {
 }
 
 async function get_posts_from_user(uid) {
-    let sql = "SELECT * FROM posts WHERE uid = ? ORDER BY pid DESC";
+    let sql = "SELECT * FROM posts WHERE uid = ? ORDER BY RANDOM()";
 
     try {
         let posts = await db.all(sql, [uid]);
