@@ -52,6 +52,7 @@ function get_profile() {
             window.location.replace("/missing-profile");
         } else {
             let profile = JSON.parse(this.response);
+            document.title = profile['fname'] + " " + profile['lname'];
             document.getElementById("name").innerHTML = profile['fname'] + " " + profile['lname'];
             document.getElementById("profile_pic").src = profile['photoURL'];
         }
