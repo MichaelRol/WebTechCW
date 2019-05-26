@@ -72,10 +72,15 @@ async function start() {
         await drop_db_posts();
         await create_db_users();
         await create_db_posts();
-        add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
-        get_all_users();
-        add_post(1234, 1111, "barA", "here", "blahblah");
-        get_all_posts();
+//        add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
+//        add_user(1, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
+//        add_user(2, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
+//        get_all_users();
+//        add_post(1, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "barA", "here", "blahblah");
+//        add_post(2, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "barB", "here", "blahblah");
+//        add_post(3, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "barC", "here", "blahblah");
+//        add_post(4, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "barD", "here", "blahblah");
+//        get_all_posts();
     }
     catch (err) { console.log(err); process.exit(1); }
 }
@@ -155,16 +160,27 @@ async function delete_user(uid) {
 }
 
 async function get_post(pid) {
-    let sql = "SELECT pid, uid, location, picURL, comment FROM posts WHERE pid = ?";
+    let sql = "SELECT * FROM posts WHERE pid = ?";
 
     try {
-        let user = await db.get(sql, [uid]);
+        let user = await db.get(sql, [pid]);
         return user;
     } catch (err) {
         console.log(err);
     }
 }
 
+async function get_posts_from_user(uid) {
+    let sql = "SELECT * FROM posts WHERE uid = ? ORDER BY RANDOM()";
+
+    try {
+        let posts = await db.all(sql, [uid]);
+        console.log(posts);
+        return posts;
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 async function get_user(uid) {
     let sql = "SELECT fname, lname, photoURL FROM users WHERE uid = ?";
@@ -507,6 +523,16 @@ server.get("/load_profile", async function(req, res) {
     }
 });
 
+server.get("/load_posts", async function(req, res) {
+    let posts = await get_posts_from_user(req.session.user.uid);
+    if (posts) {
+        res.send(posts);
+        console.log(posts);
+    } else {
+        res.send("missing");
+    }
+});
+
 server.post("/signup", async function(req, res) {
     try {
         if (validate_signup_request(req.body)) {
@@ -569,7 +595,7 @@ server.post("/upload_post", async function(req, res) {
 
 // ------------ BAD REQUESTS ------------
 server.get("*", function(req, res) {
-    res.redirect("/");
+    res.redirect("/error.html");
 })
 
 server.get("post", function(req, res) {

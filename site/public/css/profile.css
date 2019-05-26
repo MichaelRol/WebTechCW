@@ -19,16 +19,16 @@
     font-size: 150%;
 }
 
-#post {
+.post {
     border-style: solid;
     border-width: thin;
 }
 
-#caption {
+.caption {
     font-size: 120%;
 }
 
-#contentSection {
+.section {
     width: 100%;
 }
 
