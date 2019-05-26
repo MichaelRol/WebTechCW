@@ -15,54 +15,44 @@
         <!-- SCSS loaded bulma stylesheet -->
         <link rel="stylesheet" href="css/bulma_import.css"></link>
         <!-- Own stylesheet -->
-        <link rel="stylesheet" href="css/profile.css"></link>
+        <link rel="stylesheet" href="css/newpost.css"></link>
         <!-- Navbar stylesheet -->
         <link rel="stylesheet" href="css/navbar.css"></link>
+        <!-- Cloudify upload widget -->
+        <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+        <!-- Own script -->
+        <script src="newpost.js"></script>
         <!-- GOogle fonts CDN -->
         <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
         <!-- for navbar -->
         <script src="navbar.js"></script>
     </head>
     <!-- BEGIN BODY -->
-    <body onload="loadnav()">
+    <body>
         <!-- NAVBAR ON TOP OF PAGE -->
         <nav class="navbar is-fixed-top is-danger" id="navbar" role="navigation" aria-label="main navigation">
         </nav>
         <div id="contentSection" class="section">
             <div class="columns">
-                <div class="column has-text-centered is-one-third">
-                    <figure class="image is-square">
-                        <img src="https://bulma.io/images/placeholders/128x128.png">
-                    </figure>
-                    <div class="file is-centered is-danger has-name is-full-width">
-                        <label class="file-label">
-                            <input class="file-input" type="file" name="image">
-                            <span class="file-cta">
-                                <span class="file-icon">
-                                    <i class="fas fa-upload"></i>
-                                </span>
-                                <span class="file-label">
-                                    Choose a file...
-                                </span>
-                            </span>
-                        </label>
-                    </div>
+                <div class="column has-text-centered is-two-thirds">
+                    <textarea class="textarea" id="comment" placeholder="Write your review here..."></textarea>
                     <h1>Choose location</h1>
                     <div class="select is-danger">
-                        <select>
-                            <option>Bar A</option>
-                            <option>Bar B</option>
-                            <option>Bar C</option>
-                            <option>Bar D</option>
-                            <option>Bar E</option>
-                            <option>Bar F</option>
-                            <option>Bar G</option>
-                            <option>Bar H</option>
+                        <select id="location">
+                            <option value="Bar A">Bar A</option>
+                            <option value="Bar B">Bar B</option>
+                            <option value="Bar C">Bar C</option>
+                            <option value="Bar D">Bar D</option>
                         </select>
                     </div> 
                 </div>
-                <div class="column">
-                    <textarea class="textarea" placeholder="Write your review here..."></textarea>
+                <div class="column has-text-centered">
+                    <figure class="image is-square">
+                        <img src="https://bulma.io/images/placeholders/128x128.png">
+                    </figure>
+                    <a class="button is-medium is-danger" id="snapandpost" onclick="openwidget()">
+                        Snap and post!
+                    </a>
                 </div>
             </div>
         </div>

@@ -68,11 +68,14 @@ async function start() {
             console.log('[SERVER] STATUS: Express HTTPS server on listening on port 3443');
         });
         await init_db();
-        await drop_db();
-        await create_db();
+        await drop_db_users();
+        await drop_db_posts();
+        await create_db_users();
+        await create_db_posts();
         add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
-        get_user(1234);
         get_all_users();
+        add_post(1234, 1111, "barA", "here", "blahblah");
+        get_all_posts();
     }
     catch (err) { console.log(err); process.exit(1); }
 }
@@ -88,9 +91,17 @@ async function close_db() {
     }
 }
 
-async function drop_db() {
+async function drop_db_users() {
     try {
         await db.run("DROP TABLE IF EXISTS users");
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function drop_db_posts() {
+    try {
+        await db.run("DROP TABLE IF EXISTS posts");
     } catch (err) {
         console.log(err);
     }
@@ -102,10 +113,20 @@ async function init_db() {
     } catch (e) { console.log(e); }
 }
 
-async function create_db() {
+async function create_db_users() {
     try {
         await db.run("CREATE TABLE IF NOT EXISTS users (uid PRIMARY KEY, fname, lname, email, passhash, salt, photoURL)");
-        await db.run("CREATE TABLE IF NOT EXISTS posts (uid PRIMARY KEY, user, picURL, comment)");
+        console.log("users created");
+    } catch (err) {
+        console.log(err);
+    }
+    
+}
+
+async function create_db_posts() {
+    try {
+        await db.run("CREATE TABLE IF NOT EXISTS posts (pid PRIMARY KEY, uid, location, picURL, comment)");
+        console.log("posts created");
     } catch (err) {
         console.log(err);
     }
@@ -114,6 +135,10 @@ async function create_db() {
 
 async function add_user(uid, fname, lname, email, passhash, salt) {
     await db.run("INSERT INTO users (uid, fname, lname, email, passhash, salt, photoURL) VALUES (?, ?, ?, ?, ?, ?, ?)", [uid, fname, lname, email, passhash, salt, "Images/profile_pics/default.png"]);
+}
+
+async function add_post(pid, uid, location, picURL, comment) {
+    await db.run("INSERT INTO posts (pid, uid, location, picURL, comment) VALUES (?, ?, ?, ?, ?)", [pid, uid, location, picURL, comment]);
 }
 
 async function delete_user(uid) {
@@ -129,6 +154,18 @@ async function delete_user(uid) {
     }
 }
 
+async function get_post(pid) {
+    let sql = "SELECT pid, uid, location, picURL, comment FROM posts WHERE pid = ?";
+
+    try {
+        let user = await db.get(sql, [uid]);
+        return user;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
 async function get_user(uid) {
     let sql = "SELECT fname, lname, photoURL FROM users WHERE uid = ?";
 
@@ -143,6 +180,18 @@ async function get_user(uid) {
 async function get_all_users() {
     let sql = `SELECT uid, fname, lname, email FROM users
            ORDER BY lname`;
+ 
+    try {
+        let users = await db.all(sql, []);
+        console.log(users);
+    } catch (err) {
+        console.log(err);
+    }
+ 
+}
+
+async function get_all_posts() {
+    let sql = `SELECT pid, uid, location, picURL, comment FROM posts`;
  
     try {
         let users = await db.all(sql, []);
@@ -499,6 +548,19 @@ server.post("/upload_profile_pic", async function(req, res) {
     try {
         update_user_picture(req.session.user.uid, req.body.url);
         console.log("Photo uploaded");
+    } catch (err) {
+        console.log(err);
+    }
+
+});
+
+server.post("/upload_post", async function(req, res) {
+    try {
+        let uid = req.session.user.uid;
+        let pid = generate_uid();
+        add_post(pid, uid, req.body.location, req.body.picURL, req.body.comment);
+        console.log("Post uploaded");
+        get_all_posts();
     } catch (err) {
         console.log(err);
     }
