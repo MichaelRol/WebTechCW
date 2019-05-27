@@ -8,6 +8,11 @@ Created by:
  - Michael Rollins: mr16338
  - Mark Ergus Nicholl: mn16660
 
+To Test:
+ - From root directory run ````npm install```` to install necessary Node packages
+ - From directory ````site/```` run ````node server.js````
+ - Then visit https://localhost:3443
+
 Test account:
  - Email: a@a.com
  - Password: qwertyuiop
