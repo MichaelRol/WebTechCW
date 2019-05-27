@@ -1,0 +1,40 @@
+html, body {
+    height: 100%;
+}
+
+@keyframes fade-in {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+#main {
+    background-color: #FF8383;
+    width: 100%;
+    height: 100%;
+    animation-name: fade-in;
+    animation-duration: 4s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#content {
+}
+
+#text {
+    color: #FFFFFF;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#signupandlogin {
+    margin-left: auto;
+    margin-right: auto;
+}
