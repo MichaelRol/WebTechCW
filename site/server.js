@@ -71,10 +71,11 @@ async function start() {
 //        add_user(1, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
 //        add_user(2, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
 //        get_all_users();
-//        add_post(1, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "barA", "here", "blahblah");
-//        add_post(2, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "barB", "here", "blahblah");
-//        add_post(3, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "barC", "here", "blahblah");
-//        add_post(4, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "barD", "here", "blahblah");
+//        add_post(1, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "bar A", "here", "blahblah");
+//        add_post(2, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "bar B", "here", "blahblah");
+//        add_post(3, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "bar C", "here", "blahblah");
+//        add_post(4, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "bar D", "here", "blahblah");
+//        add_post(5, "4a76eb1a-9e54-4529-a35e-1c2c51b189d0", "1", "here", "blahblah");
 //        get_all_posts();
     }
     catch (err) { console.log(err); process.exit(1); }
@@ -168,6 +169,18 @@ async function get_posts_from_user(uid) {
 
     try {
         let posts = await db.all(sql, [uid]);
+        console.log(posts);
+        return posts;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+async function get_posts_from_bar(barname) {
+    let sql = "SELECT * FROM posts WHERE location = ? ORDER BY RANDOM()";
+
+    try {
+        let posts = await db.all(sql, [barname]);
         console.log(posts);
         return posts;
     } catch (err) {
@@ -533,6 +546,22 @@ server.get("/error", function(req, res) {
     res.sendFile(__dirname + '/public/error.html');
 });
 
+server.get("/fixmeadrink", function(req, res) {
+    if (!req.session.user) {
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + '/public/fixmeadrink.html');
+    }
+});
+
+server.get("/bars", function(req, res) {
+    if (!req.session.user) {
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + '/public/bars.html');
+    }
+});
+
 server.get("/load_profile", async function(req, res) {
     if (!req.session.user) {
         res.sendFile(__dirname + '/public/index.html');
@@ -553,6 +582,19 @@ server.get("/load_posts", async function(req, res) {
         if (posts) {
             res.send(posts);
             console.log(posts);
+        } else {
+            res.send("missing");
+        }
+    } catch (err) {
+        res.send("Could not load posts");
+    }
+});
+
+server.post("/load_posts_by_bar", async function(req, res) {
+    try {
+        let posts = await get_posts_from_bar(req.body.barname);
+        if (posts) {
+            res.send(posts);
         } else {
             res.send("missing");
         }
