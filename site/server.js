@@ -532,7 +532,6 @@ async function validate_login_data(req) {
 
 // ------------ HTTP FUNCTIONS ------------
 server.get("/profile", function(req, res) {
-    console.log("/profile triggered");
     if (!req.session.user) {
         res.redirect("/login");
     } else {
@@ -686,9 +685,10 @@ server.post("/upload_post", async function(req, res) {
         let pid = generate_uid();
         add_post(pid, uid, req.body.location, req.body.picURL, req.body.comment);
         console.log("Post uploaded");
-        get_all_posts();
+        res.send({success: true});
     } catch (err) {
         console.log(err);
+        res.send({success: false});
     }
 
 });
