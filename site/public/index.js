@@ -210,7 +210,10 @@ function post_login() {
   httpreq.onload = function () {
     // do something to response    
     if (JSON.parse(this.response)['success'] == true) {
-      window.location.replace('/profile');
+      loader();
+      setTimeout(function(){
+        window.location.replace("/profile");
+      }, 1200);
     } else {
       document.getElementById("login_warn").innerHTML = "Email and password do not match, please try again.";
     }
