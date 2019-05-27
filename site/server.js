@@ -63,10 +63,10 @@ async function start() {
             console.log('[SERVER] STATUS: Express HTTPS server on listening on port 3443');
         });
         await init_db();
-        await drop_db_users();
-        await drop_db_posts();
-        await create_db_users();
-        await create_db_posts();
+//        await drop_db_users();
+//        await drop_db_posts();
+//        await create_db_users();
+//        await create_db_posts();
 //        add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
 //        add_user(1, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
 //        add_user(2, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");

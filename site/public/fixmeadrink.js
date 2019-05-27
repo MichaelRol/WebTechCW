@@ -83,6 +83,7 @@ function selectflavour(flavour) {
     console.log(flavourChoice);
     document.getElementById("choosetaste").style.visibility = "hidden";
     document.getElementById("result").style.visibility = "visible";
+    document.getElementById("name").innerHTML = "Here's your drink!";
     if (base === "vodka") {
         if (flavourChoice === "strong") {
             document.getElementById("resulttitle").innerHTML = "Vodka Martini";
