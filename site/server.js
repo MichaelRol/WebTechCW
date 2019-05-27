@@ -508,9 +508,8 @@ async function validate_login_data(req) {
 // ------------ HTTP FUNCTIONS ------------
 server.get("/profile", function(req, res) {
     if (!req.session.user) {
-        res.redirect("/");
+        res.redirect("/login");
     } else {
-        let info = get_user(req.session.user.uid);
         res.sendFile(__dirname + '/public/profile.html');
     }
 });
@@ -547,8 +546,12 @@ server.get("/error", function(req, res) {
     res.sendFile(__dirname + '/public/error.html');
 });
 
-server.get("/login", function(req, res) {
+server.get("/login", function(req, res) {    
+if (!req.session.user) {
     res.sendFile(__dirname + '/public/login.html');
+} else {
+    res.redirect("/profile");
+}
 });
 
 server.get("/fixmeadrink", function(req, res) {
