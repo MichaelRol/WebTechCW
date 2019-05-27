@@ -10,7 +10,7 @@ window.onload = function() {
   document.getElementById('passsub').onkeydown = function(e) {
     if (e.keyCode == 13) {
       validate_login();
-    }
+    };
   };
 
   // Allow enter keypress to submit signup details
@@ -33,7 +33,7 @@ window.onload = function() {
     if (e.keyCode == 13) {
       validate_signup();
     }
-  };
+  }; 
   document.getElementById('pass').onkeydown = function(e) {
     if (e.keyCode == 13) {
       validate_signup();
@@ -131,7 +131,7 @@ function validate_signup() {
   } else {
     post_signup();
   }
-}
+} 
 
 // Validate signup form data
 function validate_login() {
@@ -150,7 +150,7 @@ function validate_login() {
   } else {
     post_login();
   }
-}
+} 
 
 
 // Send POST request to server with signup details
@@ -190,7 +190,8 @@ function post_signup() {
         document.getElementById("warn").innerHTML = "Please enter a valid date of birth.";
       } else if (JSON.parse(this.response)['info'] == 8) {
         document.getElementById("warn").innerHTML = "Email already registered. <a href='#' onclick='openTab(event,&quot;login&quot;)'>Login?</a>";
-      }
+
+      }    
     }
   };
   httpreq.send(JSON.stringify(payload));
@@ -207,9 +208,12 @@ function post_login() {
   httpreq.open("POST", "/login", true);
   httpreq.setRequestHeader('Content-type', 'application/JSON');
   httpreq.onload = function () {
-    // do something to response
+    // do something to response    
     if (JSON.parse(this.response)['success'] == true) {
-      window.location.replace('/profile');
+      loader();
+      setTimeout(function(){
+        window.location.replace("/profile");
+      }, 1200);
     } else {
       document.getElementById("login_warn").innerHTML = "Email and password do not match, please try again.";
     }

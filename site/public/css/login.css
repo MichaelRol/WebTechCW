@@ -37,19 +37,18 @@ div.leftside {
     width: 100px;
 }
 .loader1.hidden {
-    animation: fadein 1s;
+    animation: fadein 2s;
     animation-fill-mode: forwards;
 }
 
 @keyframes fadein {
-    50% {
-        opacity:1;
+    0% {
+        opacity: 0;
         visibility: visible;
     }
-    100% {
-        opacity: 0;
-        visibility: hidden;
-    }
+    25% {
+        opacity: 1;
+  }
 }
 
 #tabs {

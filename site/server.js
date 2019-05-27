@@ -1,14 +1,3 @@
-// Run a node.js web server for local development of a static web site. Create a
-// site folder, put server.js in it, create a sub-folder called "public", with
-// at least a file "index.html" in it. Start the server with "node server.js &",
-// and visit the site at the address printed on the console.
-//     The server is designed so that a site will still work if you move it to a
-// different platform, by treating the file system as case-sensitive even when
-// it isn't (as on Windows and some Macs). URLs are then case-sensitive.
-//     All HTML files are assumed to have a .html extension and are delivered as
-// application/xhtml+xml for instant feedback on XHTML errors. Content
-// negotiation is not implemented, so old browsers are not supported. Https is
-// not supported. Add to the list of file types in defineTypes, as necessary.
 let express = require("express");
 let path = require("path");
 const bodyParser = require('body-parser');
@@ -26,16 +15,11 @@ let httpsOptions = {
     key : fs2.readFileSync(path.join(__dirname, 'SSL', 'server.key'))
 }
 
-// Change the port to the default 80, if there are no permission issues and port
-// 80 isn't already in use. The root folder corresponds to the "/" url.
+// Running on port 3443
 let port = 3443;
 let root = "./public"
 
-// Load the library modules, and define the global constants and variables.
-// Load the promises version of fs, so that async/await can be used.
-// See http://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
-// The file types supported are set up in the defineTypes function.
-// The paths variable is a cache of url paths in the site, to check case.
+// Express server
 let server = express();
 server.use(bodyParser.json());
 server.use(session({secret:"qwertyuiop", resave:false, saveUninitialized:true}));
@@ -50,8 +34,7 @@ let db;
 start();
 
 // Check the site, giving quick feedback if it hasn't been set up properly.
-// Start the http service. Accept only requests from localhost, for security.
-// If successful, the handle function is called for each request.
+// Start the https service. Accept only requests from localhost, for security.
 async function start() {
     try {
         await fs.access(root);
@@ -63,10 +46,10 @@ async function start() {
             console.log('[SERVER] STATUS: Express HTTPS server on listening on port 3443');
         });
         await init_db();
-        await drop_db_users();
-        await drop_db_posts();
-        await create_db_users();
-        await create_db_posts();
+//        await drop_db_users();
+//        await drop_db_posts();
+//        await create_db_users();
+//        await create_db_posts();
 //        add_user(1234, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
 //        add_user(1, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");
 //        add_user(2, "Michael", "Rollins", "michael.rollins@hotmail.co.uk", "aisodakl3", "sadsd");

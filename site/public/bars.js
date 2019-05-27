@@ -17,12 +17,14 @@ function getposts(bar) {
             for (var i = 0; i < posts.length; ++i) {
                 loadposts(posts[i].picURL, posts[i].location, posts[i].comment);
             }
+            if (posts.length === 0) {
+                document.getElementById("listposts").innerHTML = "<h1>There's no post for this bar yet. Be the first to post!<\h1>";
+            }
         } catch (err) {
             window.location.replace("/error");
         }
     };
     httpreq.send(JSON.stringify(payload));
-    httpreq.end();
 }
 
 function closeposts() {
