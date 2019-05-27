@@ -11,7 +11,7 @@ window.onload = function() {
     if (e.keyCode == 13) {
       validate_login();
     };
-  };  
+  };
 
   // Allow enter keypress to submit signup details
   document.getElementById('fname').onkeydown = function(e) {
@@ -23,7 +23,7 @@ window.onload = function() {
     if (e.keyCode == 13) {
       validate_signup();
     }
-  };  
+  };
   document.getElementById('email').onkeydown = function(e) {
     if (e.keyCode == 13) {
       validate_signup();
@@ -33,7 +33,7 @@ window.onload = function() {
     if (e.keyCode == 13) {
       validate_signup();
     }
-  };  
+  }; 
   document.getElementById('pass').onkeydown = function(e) {
     if (e.keyCode == 13) {
       validate_signup();
