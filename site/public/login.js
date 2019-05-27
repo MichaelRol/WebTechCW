@@ -170,7 +170,6 @@ function post_signup() {
   httpreq.setRequestHeader('Content-type', 'application/JSON');
   httpreq.onload = function () {
     // do something to response
-    // REDIRECT TO SUCCESSFUL SIGNUP PAGE
     if (JSON.parse(this.response)['success'] == true) {
        window.location.replace('/signupsuccess');
     } else {
