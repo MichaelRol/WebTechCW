@@ -30,25 +30,20 @@ let httpsOptions = {
 // 80 isn't already in use. The root folder corresponds to the "/" url.
 let port = 3443;
 let root = "./public"
-// let db = new sqlite3.Database(':memory:');
+
 // Load the library modules, and define the global constants and variables.
 // Load the promises version of fs, so that async/await can be used.
 // See http://en.wikipedia.org/wiki/List_of_HTTP_status_codes.
-// The file types supported are set up in the defineTypes function. 
+// The file types supported are set up in the defineTypes function.
 // The paths variable is a cache of url paths in the site, to check case.
 let server = express();
 server.use(bodyParser.json());
 server.use(session({secret:"qwertyuiop", resave:false, saveUninitialized:true}));
 var staticPath = path.join(__dirname, '/public');
 server.use(express.static(staticPath));
+
 let OK = 200, NotFound = 404, BadType = 415, Error = 500;
 let types, paths;
-// let db = new sqlite3.Database('./db/database.db', sqlite3.OPEN_READWRITE, (err) => {
-//     if (err) {
-//         console.error(err.message);
-//     }
-//     console.log('Connected to the database.');
-// });
 
 let db;
 // Start the server:
@@ -125,7 +120,6 @@ async function create_db_users() {
     } catch (err) {
         console.log(err);
     }
-    
 }
 
 async function create_db_posts() {
@@ -135,7 +129,6 @@ async function create_db_posts() {
     } catch (err) {
         console.log(err);
     }
-    
 }
 
 async function add_user(uid, fname, lname, email, passhash, salt) {
@@ -196,26 +189,26 @@ async function get_user(uid) {
 async function get_all_users() {
     let sql = `SELECT uid, fname, lname, email FROM users
            ORDER BY lname`;
- 
+
     try {
         let users = await db.all(sql, []);
         console.log(users);
     } catch (err) {
         console.log(err);
     }
- 
+
 }
 
 async function get_all_posts() {
     let sql = `SELECT pid, uid, location, picURL, comment FROM posts`;
- 
+
     try {
         let users = await db.all(sql, []);
         console.log(users);
     } catch (err) {
         console.log(err);
     }
- 
+
 }
 
 async function update_user_email(uid, email) {
@@ -253,7 +246,7 @@ async function update_user_password(uid, newHash, newSalt) {
     } catch (err) {
         success = false;
         console.log(err);
-    }  
+    }
     if (success) {
         console.log("Updated password");
     }
@@ -395,7 +388,7 @@ function all_letters(input) {
         return false;
     }
  }
-  
+
   // Check email address has valid format
 function validate_email(email) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
@@ -513,7 +506,19 @@ server.get("/profile", function(req, res) {
 });
 
 server.get("/", function(req, res) {
-    res.sendFile(__dirname + '/public/index.html');
+    if (!req.session.user) {
+        res.sendFile(__dirname + '/public/index.html');
+    } else {
+        res.sendFile(__dirname + '/public/profile.html');
+    }
+});
+
+server.get("/index", function(req, res) {
+    if (!req.session.user) {
+        res.sendFile(__dirname + '/public/index.html');
+    } else {
+        res.redirect("/profile");
+    }
 });
 
 server.get("/signupsuccess", function(req, res) {
@@ -554,6 +559,11 @@ server.get("/load_posts", async function(req, res) {
     } catch (err) {
         res.send("Could not load posts");
     }
+});
+
+server.get("/logout", async function(req, res) {
+    req.session.user = null;
+    res.redirect("/");
 });
 
 server.post("/signup", async function(req, res) {
