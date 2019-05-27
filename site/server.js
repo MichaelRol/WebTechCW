@@ -536,27 +536,27 @@ server.get("/signupsuccess", function(req, res) {
 });
 
 server.get("/newpost", function(req, res) {
-    res.sendFile(__dirname + '/public/newpost.html');
+    if (!req.session.user) {
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + '/public/newpost.html');
+    }
 });
 
 server.get("/error", function(req, res) {
     res.sendFile(__dirname + '/public/error.html');
 });
 
+server.get("/login", function(req, res) {
+    res.sendFile(__dirname + '/public/login.html');
+});
+
 server.get("/fixmeadrink", function(req, res) {
-    if (!req.session.user) {
-        res.redirect("/");
-    } else {
-        res.sendFile(__dirname + '/public/fixmeadrink.html');
-    }
+    res.sendFile(__dirname + '/public/fixmeadrink.html');
 });
 
 server.get("/bars", function(req, res) {
-    if (!req.session.user) {
-        res.redirect("/");
-    } else {
         res.sendFile(__dirname + '/public/bars.html');
-    }
 });
 
 server.get("/load_profile", async function(req, res) {
