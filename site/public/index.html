@@ -1,120 +1,32 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"> 
     <head>
         <!-- charset meta tag -->
         <meta charset="UTF-8"/> 
         <!-- Responsive meta tag -->
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <!-- Title -->
-        <title>Drink Up Buddy!</title>
-        <script src="index.js"></script>
+        <title>Welcome To Rate-A-Drink!</title>
         <!-- Font awesome icons -->
         <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    
+        <!-- VUE CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <!-- SCSS loaded bulma stylesheet -->
         <link rel="stylesheet" href="css/bulma_import.css"></link>
         <!-- Own stylesheet -->
-        <link rel="stylesheet" href="css/index.css"></link>
+        <link rel="stylesheet" href="css/main.css"></link>
         <!-- GOogle fonts CDN -->
         <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
     </head>
     <!-- BEGIN BODY -->
     <body>
-        <!-- LOADING ANIMATION -->
-        <div class="loader1" id="loader1">
-            <img src="Images/Logo.gif"/>
-        </div>
-        <div class="columns is-gapless is-vcentered">
-            <!-- LEFT SIDE LOGO COLUMN -->
-            <div class="column is-two-fifths">
-                <div class="leftside">
-                    <figure class="image container is-128x128">
-                        <img src="Images/Logo.png"/>
-                    </figure>
-                </div>
-            </div>
-            <!-- RIGHT SIDE LOGIN/SIGNUP COLUMN -->
-            <div class="column">
-                <div class="entryfields">
-                    <!-- Tabs to select login or sign up -->
-                    <div class="tabs is-centered is-small is-fullwidth" id="tabs">
-                        <ul>
-                            <li class="tab is-active" onclick="openTab(event,'login')">
-                                <a>
-                                    <span class="icon is-large"><i class="fas fa-key"></i></span>
-                                    <span>Log In</span>
-                                </a>
-                                
-                            </li>
-                            <li class="tab" onclick="openTab(event,'signup')">
-                                <a>
-                                    <span class="icon is-large"><i class="fas fa-cocktail"></i></span>
-                                    <span>Sign Up</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <!-- LOGIN TAB -->
-                    <form id="login" class="content-tab">
-                        <p id="login_warn"></p>
-                        <div class="field"  id="topfield">
-                            <div class="control">
-                                <input id="emailsub" class="input" type="email" placeholder="Email"/>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input id="passsub" class="input" type="password" placeholder="Password"/>
-                            </div>
-                        </div>
-                        <label class="checkbox" style="padding-bottom: 5%">
-                            <input type="checkbox"/>
-                            Keep me signed in
-                        </label>
-                        <a onclick="validate_login()" class="button is-danger is-focused is-large is-fullwidth">Login!</a>
-                    </form>
-                    <!-- SIGNUP TAB -->
-                    <form id="signup" class="content-tab" style="display:none">
-                        <!-- Entry fields -->
-                        <p id="warn"></p>
-                        <div class="field" id="topfield">
-                            <div class="control">
-                                <input id="fname" class="input" type="text" placeholder="First name"/>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input id="lname" class="input" type="text" placeholder="Last name"/>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input class="input" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Date of birth"/>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input id="email" class="input" type="email" placeholder="Email"/>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input id="cemail"class="input" type="email" placeholder="Confirm email"/>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="control">
-                                <input id="pass" class="input" type="password" placeholder="Password"/>
-                            </div>
-                        </div>
-                        <div class="field" style="padding-bottom: 2%">
-                            <div class="control">
-                                <input id="cpass" class="input" type="password" placeholder="Confirm password"/>
-                            </div>
-                        </div>
-                        <a class="button is-danger is-focused is-large is-fullwidth" onclick="validate_signup()">Sign Up Now!</a>
-                    </form>
-                </div>
-            </div>
+        <div id="main">
+            <figure class="image is-128x128" id="image">
+                    <img src="Images/Logo.png"/>
+                </figure>
+            <p class="title is-1" id="text">Welcome to Rate-A-Drink!</p>
+            <a class="button is-light is-large" href="/" id="signupandlogin">Login/Sign Up</a>
         </div>
     </body>
 </html>

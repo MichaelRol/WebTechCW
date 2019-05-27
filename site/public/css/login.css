@@ -1,0 +1,60 @@
+.column {
+    height: 100vh;
+}
+
+div.leftside {
+    height: 100%;
+    background-color: #FF8383;
+    text-align: center;
+    padding-top: 20%;
+}
+
+.entryfields{
+    padding: 5%;
+    height: inherit;
+    overflow: scroll;
+}
+
+.field {
+    padding-top: 5%;
+}
+
+.loader1 {
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #FF8383;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+
+.loader1 > img {
+    width: 100px;
+}
+.loader1.hidden {
+    animation: fadein 2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+        visibility: visible;
+    }
+    25% {
+        opacity: 1;
+  }
+}
+
+#tabs {
+    padding-top: 8%;
+}
+
+#topfield {
+    padding-top: 10%;
+}
