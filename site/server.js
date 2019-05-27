@@ -527,7 +527,6 @@ server.get("/newpost", function(req, res) {
 });
 
 server.get("/error", function(req, res) {
-    res.send(404);
     res.sendFile(__dirname + '/public/error.html');
 });
 
