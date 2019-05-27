@@ -48,6 +48,7 @@ function imageuploader() {
             httpreq.open("POST", "/upload_post");
             httpreq.setRequestHeader('Content-type', 'application/JSON');
             httpreq.send(JSON.stringify(payload));
+            document.getElementById("preview").src = result.info.secure_url;
             // SUCCESS MESSAGE HERE
         }
     });

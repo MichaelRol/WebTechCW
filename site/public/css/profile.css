@@ -1,15 +1,3 @@
-#navitem {
-    width: 33%;
-    align-items: center;
-    align-content: stretch;
-}
-
-#navitemwords {
-    width: 100%;
-    text-align: center;
-    font-size: 120%;
-}
-
 #name {
     font-size: 300%;
     margin-bottom: 2%;

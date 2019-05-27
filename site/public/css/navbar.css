@@ -1,5 +1,5 @@
 .navbar.is-fixed-top.is-danger {
-    style="height: 8%;
+    height: 8%;
 }
 
 .navbar-brand {
@@ -12,6 +12,18 @@
 
 .navbar-start {
     width: 100%;
+}
+
+#navitem {
+    width: 33%;
+    align-items: center;
+    align-content: stretch;
+}
+
+#navitemwords {
+    width: 100%;
+    text-align: center;
+    font-size: 120%;
 }
 
 #myprofile, #bars, #drink {
