@@ -36,19 +36,27 @@
             <div class="columns">
                 <div class="column has-text-centered is-two-thirds">
                     <textarea class="textarea" id="comment" placeholder="Write your review here..."></textarea>
-                    <h1>Choose location</h1>
-                    <div class="select is-danger">
-                        <select id="location">
-                            <option value="Bar A">Bar A</option>
-                            <option value="Bar B">Bar B</option>
-                            <option value="Bar C">Bar C</option>
-                            <option value="Bar D">Bar D</option>
-                        </select>
-                    </div> 
-                    <a class="button is-medium is-danger" id="post" onclick="try_post()">
-                        Upload post!
-                    </a>
-                    <p id="newpost_warn"></p>
+                    <div class="columns">
+                        <div class="column is-full has-text-centered">
+                            <h1>Choose location</h1>
+                            <div class="select is-danger" id="locationselect">
+                                <select id="location">
+                                    <option value="Bar A">Bar A</option>
+                                    <option value="Bar B">Bar B</option>
+                                    <option value="Bar C">Bar C</option>
+                                    <option value="Bar D">Bar D</option>
+                                </select>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-full has-text-centered">
+                            <a class="button is-medium is-danger" id="post" onclick="try_post()">
+                                Upload post!
+                            </a>
+                            <p id="newpost_warn"></p> 
+                        </div>
+                    </div>
                 </div>
                 <div class="column has-text-centered">
                     <figure class="image is-square">
