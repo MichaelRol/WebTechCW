@@ -6,7 +6,6 @@ let uuid = require("uuid/v4");
 let bcrypt = require("bcrypt");
 let sqlite = require("sqlite");
 let session = require("express-session");
-
 // For HTTPS certificates
 let https = require("https");
 let fs2 = require("fs");
@@ -24,6 +23,62 @@ let server = express();
 server.use(bodyParser.json());
 server.use(session({secret:"qwertyuiop", resave:false, saveUninitialized:true}));
 var staticPath = path.join(__dirname, '/public');
+
+server.get("/profile.html", function(req, res) {
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+server.get("/index.html", function(req, res) {
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        res.redirect("/profile");
+    }
+});
+
+server.get("/signupsuccess.html", function(req, res) {
+    res.redirect("/login");
+});
+
+server.get("/newpost.html", function(req, res) {
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        res.redirect("/newpost");
+    }
+});
+
+server.get("/locationpost.html", function(req, res) {
+    if (!req.session.user) {
+        res.redirect("/login");
+    } else {
+        res.redirect("/locationpost");
+    }
+});
+
+server.get("/error.html", function(req, res) {
+    res.redirect("/error");
+});
+
+server.get("/login.html", function(req, res) {    
+if (!req.session.user) {
+    res.redirect("/login");
+} else {
+    res.redirect("/profile");
+}
+});
+
+server.get("/fixmeadrink.html", function(req, res) {
+    res.redirect("/fixmeadrink");
+});
+
+server.get("/bars.html", function(req, res) {
+        res.redirect("/bars");
+});
 server.use(express.static(staticPath));
 
 let OK = 200, NotFound = 404, BadType = 415, Error = 500;
@@ -262,19 +317,6 @@ async function get_all_emails() {
     return emails;
 }
 
-// Serve a request by delivering a file.
-async function handle(request, response) {
-    let url = request.url;
-    if (url.endsWith("/")) url = url + "index.html";
-    let ok = await checkPath(url);
-    if (! ok) return fail(response, NotFound, "URL not found (check case)");
-    let type = findType(url);
-    if (type == null) return fail(response, BadType, "File type not supported");
-    let file = root + url;
-    let content = await fs.readFile(file);
-    deliver(response, type, content);
-}
-
 // Check if a path is in or can be added to the set of site paths, in order
 // to ensure case-sensitivity.
 async function checkPath(path) {
@@ -490,12 +532,14 @@ async function validate_login_data(req) {
 
 // ------------ HTTP FUNCTIONS ------------
 server.get("/profile", function(req, res) {
+    console.log("/profile triggered");
     if (!req.session.user) {
         res.redirect("/login");
     } else {
         res.sendFile(__dirname + '/public/profile.html');
     }
 });
+
 
 server.get("/", function(req, res) {
     if (!req.session.user) {
@@ -671,3 +715,4 @@ server.delete("*", function (req, res) {
     res.status(403);
     res.send("DELETE request unauthorized.");
 });
+
