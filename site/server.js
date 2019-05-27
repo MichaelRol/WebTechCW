@@ -17,8 +17,6 @@ let uuid = require("uuid/v4");
 let bcrypt = require("bcrypt");
 let sqlite = require("sqlite");
 let session = require("express-session");
-let validator = require("validator");
-
 // For HTTPS certificates
 let https = require("https");
 let fs2 = require("fs");
@@ -334,19 +332,6 @@ async function get_all_emails() {
     const emails = (await db.all("SELECT email FROM users", [])).map((row) => row.email);
 
     return emails;
-}
-
-// Serve a request by delivering a file.
-async function handle(request, response) {
-    let url = request.url;
-    if (url.endsWith("/")) url = url + "index.html";
-    let ok = await checkPath(url);
-    if (! ok) return fail(response, NotFound, "URL not found (check case)");
-    let type = findType(url);
-    if (type == null) return fail(response, BadType, "File type not supported");
-    let file = root + url;
-    let content = await fs.readFile(file);
-    deliver(response, type, content);
 }
 
 // Check if a path is in or can be added to the set of site paths, in order
