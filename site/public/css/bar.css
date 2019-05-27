@@ -1,0 +1,24 @@
+.overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      transition: .5s ease;
+      background-color: #000000;
+}
+
+#viewbarA, #viewbarB, #viewbarC, #viewbarD {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 45%;
+    max-width: 80%;
+}
+
+.image.is-square:hover .overlay {
+  opacity: 0.7;
+}

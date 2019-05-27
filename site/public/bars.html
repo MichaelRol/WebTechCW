@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top" xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"> 
+    <head>
+        <!-- charset meta tag -->
+        <meta charset="UTF-8"/> 
+        <!-- Responsive meta tag -->
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- Title -->
+        <title>Bars</title>
+        <!-- Font awesome icons -->
+        <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    
+        <!-- VUE CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <!-- SCSS loaded bulma stylesheet -->
+        <link rel="stylesheet" href="css/bulma_import.css"></link>
+        <!-- Own stylesheet -->
+        <link rel="stylesheet" href="css/navbar.css"></link>
+        <link rel="stylesheet" href="css/bar.css"></link>
+        <!-- Own script -->
+        <script src="bars.js"></script>
+        <!-- GOogle fonts CDN -->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Serif|Open+Sans" rel="stylesheet"></link>
+        <!-- for navbar -->
+        <script src="navbar.js"></script>
+        <script src="locationposts.js"></script>
+    </head>
+    <!-- BEGIN BODY -->
+    <body onload="loadnav()">
+        <!-- NAVBAR ON TOP OF PAGE -->
+        <nav class="navbar is-fixed-top is-danger" id="navbar" role="navigation" aria-label="main navigation">
+        </nav>
+        <div id="contentSection" class="section">
+            <div class="columns is-variable is-1-mobile is-3-widescreen is-3-tablet is-3-fullhd">
+                <div id="postcollumn0" class="column is-half">
+                    <figure class="image is-square">
+                        <img class="post" id="post0" src="Images/Logo.png"/>
+                        <div class="overlay">
+                            <a class="button is-medium is-danger" id="viewbarA" onclick="getposts(&quot;Bar A&quot;)">Bar A</a>
+                        </div>
+                    </figure>
+                </div>
+                <div id="postcollumn1" class="column is-half">
+                    <figure class="image is-square">
+                        <img class="post" id="post1" src="Images/Logo.png"/>
+                        <div class="overlay">
+                            <a class="button is-medium is-danger" id="viewbarB" onclick="getposts(&quot;Bar B&quot;)">Bar B</a>
+                        </div>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div id="contentSection" class="section">
+            <div class="columns is-variable is-1-mobile is-3-widescreen is-3-tablet is-3-fullhd">
+                <div id="postcollumn0" class="column is-half">
+                    <figure class="image is-square">
+                        <img class="post" id="post0" src="Images/Logo.png"/>
+                        <div class="overlay">
+                            <a class="button is-medium is-danger" id="viewbarC" onclick="getposts(&quot;Bar C&quot;)">Bar C</a>
+                        </div>
+                    </figure>
+                </div>
+                <div id="postcollumn1" class="column is-half">
+                    <figure class="image is-square">
+                        <img class="post" id="post1" src="Images/Logo.png"/>
+                        <div class="overlay">
+                            <a class="button is-medium is-danger" id="viewbarD" onclick="getposts(&quot;Bar D&quot;)">Bar D</a>
+                        </div>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="posts">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title" id="bartitle">Bar A
+                    </p>
+                    <button class="delete" aria-label="close" id="closeposts" onclick="closeposts()"></button>
+                </header>
+                <section class="modal-card-body" id="listposts">
+                    <!-- Dynamically load from JS here -->
+                </section>
+                <footer class="modal-card-foot">
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>
