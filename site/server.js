@@ -32,6 +32,14 @@ server.get("/profile.html", function(req, res) {
     }
 });
 
+server.get("/", function(req, res) {
+    if (!req.session.user) {
+        res.sendFile(__dirname + '/public/index.html');
+    } else {
+        res.redirect("/profile");
+    }
+});
+
 server.get("/index.html", function(req, res) {
     if (!req.session.user) {
         res.redirect("/login");
@@ -544,7 +552,7 @@ server.get("/", function(req, res) {
     if (!req.session.user) {
         res.sendFile(__dirname + '/public/index.html');
     } else {
-        res.sendFile(__dirname + '/public/profile.html');
+        res.redirect("/profile");
     }
 });
 
