@@ -117,7 +117,6 @@ async function init_db() {
 async function create_db_users() {
     try {
         await db.run("CREATE TABLE IF NOT EXISTS users (uid PRIMARY KEY, fname, lname, email, passhash, salt, photoURL)");
-        console.log("users created");
     } catch (err) {
         console.log(err);
     }
@@ -126,7 +125,6 @@ async function create_db_users() {
 async function create_db_posts() {
     try {
         await db.run("CREATE TABLE IF NOT EXISTS posts (pid PRIMARY KEY, uid, location, picURL, comment)");
-        console.log("posts created");
     } catch (err) {
         console.log(err);
     }
@@ -513,7 +511,6 @@ server.get("/profile", function(req, res) {
         res.redirect("/");
     } else {
         let info = get_user(req.session.user.uid);
-        console.log([info].fname);
         res.sendFile(__dirname + '/public/profile.html');
     }
 });
@@ -581,7 +578,6 @@ server.get("/load_posts", async function(req, res) {
         let posts = await get_posts_from_user(req.session.user.uid);
         if (posts) {
             res.send(posts);
-            console.log(posts);
         } else {
             res.send("missing");
         }
@@ -633,7 +629,6 @@ server.post("/login", async function(req, res) {
         if (validate_login_request(req.body)) {
             let error = await validate_login_data(req);
             if (error == 0) {
-                console.log(req.session.user.uid);
                 res.send({success: true, info: "Login successful, redirecting..."});
             } else {
                 res.send({success: false, info: "Email and password did not match"});
@@ -670,9 +665,23 @@ server.post("/upload_post", async function(req, res) {
 
 // ------------ BAD REQUESTS ------------
 server.get("*", function(req, res) {
+    res.status(404);
     res.redirect("/error");
 })
 
 server.get("post", function(req, res) {
     res.redirect("/");
 })
+
+server.post("*", function (req, res) {
+    res.status(403);
+    res.send("POST request unauthorized.");
+});
+server.put("*", function (req, res) {
+    res.status(403);
+    res.send("PUT request unauthorized.");
+});
+server.delete("*", function (req, res) {
+    res.status(403);
+    res.send("DELETE request unauthorized.");
+});

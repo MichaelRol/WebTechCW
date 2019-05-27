@@ -25,7 +25,7 @@ window.onload = function() {
             action: "#FFFFFF"
         },
     }  
-    }, (error, result) => { 
+    }, (error, result) => {
         if (result.event == "success") {
             var payload = {
                 url: result.info.secure_url,
@@ -71,10 +71,8 @@ function get_posts() {
     httpreq2.onload = function () {
         if (this.responseText == "missing") {
             document.getElementById("loadmore").style.display ="none";
-        } 
-        else {
+        } else {
             posts = JSON.parse(this.response);
-            console.log(posts);
             lengthofposts = posts.length-1;
             for (var i = 0; i < lengthofposts + 1; ++i) {
                 document.getElementById("postcollumn"+i).style.display = "block";
@@ -83,9 +81,9 @@ function get_posts() {
                 document.getElementById("caption"+i).innerHTML = posts[i].comment;
             }
             if (lengthofposts < 4) {
-                document.getElementById("loadmore").style.display ="none";
+                document.getElementById("loadmore").style.display = "none";
             }
-        }        
+        }
     };
     httpreq2.send();
 
